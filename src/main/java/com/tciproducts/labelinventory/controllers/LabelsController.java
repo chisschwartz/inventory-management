@@ -22,7 +22,7 @@ public class LabelsController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Labels> getLabelById(@PathVariable Long id) {
+    public Optional<Labels> getLabelById(@PathVariable Integer id) {
         return labelsService.getLabelById(id);
     }
 
@@ -32,7 +32,7 @@ public class LabelsController {
     }
 
     @PutMapping("/{id}")
-    public Labels updateLabelById(@PathVariable Long id, @RequestBody Labels updatedLabel) {
+    public Labels updateLabelById(@PathVariable Integer id, @RequestBody Labels updatedLabel) {
         return labelsService.updateLabelById(id, updatedLabel);
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface LabelsRepository extends CrudRepository<Labels, Long> {
-    Optional<Labels> findAllById(Long labelCode);
+public interface LabelsRepository extends CrudRepository<Labels, Integer> {
+    Optional<Labels> findAllById(int labelCode);
 }

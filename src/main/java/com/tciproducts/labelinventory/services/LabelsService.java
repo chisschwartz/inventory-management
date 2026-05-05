@@ -17,11 +17,11 @@ public class LabelsService {
         return labelsRepository.findAll();
     }
 
-    public Optional<Labels> getLabelById(Long id) {
+    public Optional<Labels> getLabelById(Integer id) {
         return labelsRepository.findById(id);
     }
 
-    public Optional<Labels> getAllLabelsByLabelCode(Long labelCode) {
+    public Optional<Labels> getAllLabelsByLabelCode(Integer labelCode) {
         return labelsRepository.findAllById(labelCode);
     }
 
@@ -29,11 +29,11 @@ public class LabelsService {
         return  labelsRepository.save(label);
     }
 
-    public void deleteLabel (Long id) {
+    public void deleteLabel (Integer id) {
         labelsRepository.deleteById(id);
     }
 
-    public Labels updateLabelById(Long id, Labels updatedLabel) {
+    public Labels updateLabelById(Integer id, Labels updatedLabel) {
         Optional<Labels> result = labelsRepository.findById(id);
 
         if(result.isEmpty()) {
