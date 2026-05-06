@@ -1,16 +1,22 @@
 package com.tciproducts.labelinventory.controllers;
 
-import com.tciproducts.labelinventory.LabelinventoryApplication;
-import com.tciproducts.labelinventory.models.Labels;
-import com.tciproducts.labelinventory.services.LabelsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tciproducts.labelinventory.models.Labels;
+import com.tciproducts.labelinventory.services.LabelsService;
+
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/labels")
 public class LabelsController {
 
     @Autowired
@@ -37,7 +43,7 @@ public class LabelsController {
     }
 
     @DeleteMapping("/id")
-    public Labels deleteLabelById(@PathVariable Integer id) {
-        return labelsService.deleteLabelById(id);
+    public void deleteLabelById(@PathVariable Integer id) {
+        labelsService.deleteLabelById(id);
     }
 }

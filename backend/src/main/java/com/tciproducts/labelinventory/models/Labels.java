@@ -1,6 +1,5 @@
 package com.tciproducts.labelinventory.models;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;

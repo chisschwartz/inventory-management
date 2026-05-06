@@ -1,11 +1,12 @@
 package com.tciproducts.labelinventory.services;
 
-import com.tciproducts.labelinventory.models.Labels;
-import com.tciproducts.labelinventory.models.repositories.LabelsRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.tciproducts.labelinventory.models.Labels;
+import com.tciproducts.labelinventory.models.repositories.LabelsRepository;
 
 @Service
 public class LabelsService {
@@ -21,17 +22,23 @@ public class LabelsService {
         return labelsRepository.findById(id);
     }
 
-    public Optional<Labels> getAllLabelsByLabelCode(Integer labelCode) {
-        return labelsRepository.findAllById(labelCode);
+    public Optional<Labels> getAllLabelsByLabelCode(Integer id) {
+        return labelsRepository.findAllById(id);
     }
 
     public Labels saveLabels (Labels label) {
         return  labelsRepository.save(label);
     }
 
-    public Labels deleteLabelById (Integer id) {
-        labelsRepository.deleteById(id);
-        return null;
+    public void deleteLabelById (Integer id) {
+        Optional<Labels> results = labelsRepository.findById(id);
+
+        if(results.isEmpty()) {
+            throw new RuntimeException("label does not exist at id:" + id);
+        }
+
+        Labels labels = results.get();
+        labelsRepository.delete(labels);
     }
 
     public Labels updateLabelById(Integer id, Labels updatedLabel) {
