@@ -1,5 +1,6 @@
 package com.tciproducts.labelinventory.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,7 @@ public class Labels extends AbstractEntity {
 
     private String labelAlias;
 
-    private String companies;
+    private String company;
 
 //    @Size(max = 2, message = "label size needs to be 2 characters")
 //    private String labelSize;

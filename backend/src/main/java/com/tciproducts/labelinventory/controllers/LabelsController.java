@@ -36,6 +36,8 @@ public class LabelsController {
         return labelsService.updateLabelById(id, updatedLabel);
     }
 
-    @DeleteMapping("/{id}")
-    public Labels deleteLabelByID(@PathVariable Integer id) {return labelsService.deleteLabelByID(id);}
+    @DeleteMapping("/id")
+    public Labels deleteLabelById(@PathVariable Integer id) {
+        return labelsService.deleteLabelById(id);
+    }
 }

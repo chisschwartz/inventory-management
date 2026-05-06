@@ -13,10 +13,6 @@ public class LabelsService {
     @Autowired
     private LabelsRepository labelsRepository;
 
-    public Labels createLabel(Labels labels) {
-        return labelsRepository.save(labels);
-    }
-
     public Iterable<Labels> getAllLabels() {
         return labelsRepository.findAll();
     }
@@ -33,7 +29,7 @@ public class LabelsService {
         return  labelsRepository.save(label);
     }
 
-    public Labels deleteLabelByID (Integer id) {
+    public Labels deleteLabelById (Integer id) {
         labelsRepository.deleteById(id);
         return null;
     }
