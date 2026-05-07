@@ -2,9 +2,10 @@ package com.tciproducts.labelinventory.models.repositories;
 
 import com.tciproducts.labelinventory.models.Labels;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface LabelsRepository extends CrudRepository<Labels, Integer> {
-    Optional<Labels> findAllById(int labelCode);
 }

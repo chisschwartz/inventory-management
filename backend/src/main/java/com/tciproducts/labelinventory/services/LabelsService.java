@@ -22,11 +22,11 @@ public class LabelsService {
         return labelsRepository.findById(id);
     }
 
-    public Labels saveLabels (Labels label) {
+    public Labels saveLabels(Labels label) {
         return  labelsRepository.save(label);
     }
 
-    public void deleteLabelById (Integer id) {
+    public void deleteLabelById(Integer id) {
         Optional<Labels> results = labelsRepository.findById(id);
 
         if(results.isEmpty()) {
@@ -38,15 +38,16 @@ public class LabelsService {
     }
 
     public Labels updateLabelById(Integer id, Labels updatedLabel) {
-        Optional<Labels> result = labelsRepository.findById(id);
+        Optional<Labels> results = labelsRepository.findById(id);
 
-        if(result.isEmpty()) {
+        if(results.isEmpty()) {
             throw new RuntimeException("label does not exist at id:" + id);
         }
 
-        Labels labels = result.get();
+        Labels labels = results.get();
         labels.setLabelAlias(updatedLabel.getLabelAlias());
         labels.setLabelCode(updatedLabel.getLabelCode());
+        labels.setCompany(updatedLabel.getCompany());
         return labelsRepository.save(labels);
     }
 

@@ -2,7 +2,9 @@ package com.tciproducts.labelinventory.controllers;
 
 import java.util.Optional;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,17 +34,18 @@ public class LabelsController {
         return labelsService.getLabelById(id);
     }
 
-    @PostMapping
+    @PostMapping()
     public Labels saveLabel(@RequestBody Labels label) {
         return labelsService.saveLabels(label);
     }
 
     @PutMapping("/{id}")
     public Labels updateLabelById(@PathVariable Integer id, @RequestBody Labels updatedLabel) {
+
         return labelsService.updateLabelById(id, updatedLabel);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public void deleteLabelById(@PathVariable Integer id) {
         labelsService.deleteLabelById(id);
     }
