@@ -22,10 +22,6 @@ public class LabelsService {
         return labelsRepository.findById(id);
     }
 
-    public Optional<Labels> getAllLabelsByLabelCode(Integer id) {
-        return labelsRepository.findAllById(id);
-    }
-
     public Labels saveLabels (Labels label) {
         return  labelsRepository.save(label);
     }
