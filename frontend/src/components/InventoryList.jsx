@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import CreateLabel from "./CreateLabel";
+import "./InventoryList.css";
 
 
 const InventoryList = () => {
@@ -23,18 +24,35 @@ const InventoryList = () => {
 
             const data = await response.json();
             setLabels(data);
+
         } catch(error) {
             console.error("Error fetching lables: ", error);
+        }
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5176/api/labels/${id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+
+            if(!response.ok) {
+                throw new Error(`Error! Status: ${response.status}`);
+            }
+            
+            fetchLabels();
+
+        } catch(error) {
+            console.error("Error deleting lable: ", error);
         }
     };
 
     return (
-        <div>
+        <div style={{display: "flex", flexFlow: "column wrap",  height: "900px"}}>
             {labels.map((label) => (
                 <div key={label.id} className="label-display">
-                    <div>
                         <p>{label.labelCode} {label.labelAlias} {label.company}</p>
-                    </div>
                 </div>
             ))}
         </div>
