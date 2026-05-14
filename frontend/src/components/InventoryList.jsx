@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react"
 import CreateLabel from "./CreateLabel";
 import "./InventoryList.css";
+import LabelList from "./LabelList";
+import Pagination from "./Pagination";
 
 
 const InventoryList = () => {
     const [labels, setLabels] = useState([]);
-    const [isCreateLabel, setCreateLabel] = useState(false);
+    const [isCreateLabel, setCreateLabel] = useState(false)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(20);
+    const indexOfLastLabel = currentPage * itemsPerPage;
+    const indexOfFirstLabel = indexOfLastLabel - itemsPerPage;
+    const currentLabels = labels.slice(indexOfFirstLabel, indexOfLastLabel);    
 
     useEffect(() => {
         fetchLabels();
@@ -49,13 +57,22 @@ const InventoryList = () => {
     };
 
     return (
-        <div style={{display: "flex", flexFlow: "column wrap",  height: "900px"}}>
-            {labels.map((label) => (
-                <div key={label.id} className="label-display">
-                        <p>{label.labelCode} {label.labelAlias} {label.company}</p>
-                </div>
-            ))}
+        <div >
+            <LabelList labels={labels} />
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={labels.length}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                />
         </div>
+        // <div style={{display: "flex", flexFlow: "column wrap",  height: "10000px"}}>
+        //     {labels.map((label) => (
+        //         <div key={label.id} className="label-display">
+        //                 <p>{label.labelCode} {label.labelAlias} {label.company}</p>
+        //         </div>
+        //     ))}
+        // </div>
     )
 };
 
