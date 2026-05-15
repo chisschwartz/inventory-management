@@ -10,16 +10,14 @@ const InventoryList = () => {
     const [isCreateLabel, setCreateLabel] = useState(false)
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(20);
+    const [itemsPerPage] = useState(51);
     const indexOfLastLabel = currentPage * itemsPerPage;
     const indexOfFirstLabel = indexOfLastLabel - itemsPerPage;
     const currentLabels = labels.slice(indexOfFirstLabel, indexOfLastLabel);    
 
     useEffect(() => {
-        fetchLabels();
-    })
-
-    const fetchLabels = async () => {
+        
+        const fetchLabels = async () => {
         try {
             const response = await fetch("http://localhost:5176/api/labels", {
                 method: 'GET',
@@ -37,6 +35,9 @@ const InventoryList = () => {
             console.error("Error fetching lables: ", error);
         }
     }
+
+    fetchLabels();
+    }, []);
 
     const handleDelete = async (id) => {
         try {
@@ -57,8 +58,8 @@ const InventoryList = () => {
     };
 
     return (
-        <div >
-            <LabelList labels={labels} />
+        <div>
+            <LabelList labels={currentLabels} />
             <Pagination
                 itemsPerPage={itemsPerPage}
                 totalItems={labels.length}

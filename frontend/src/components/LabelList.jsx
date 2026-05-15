@@ -3,14 +3,14 @@
 const LabelList = ({ labels }) => {
 
     return (
-        <ul className="label-list">
+        <div className="label-list" style={{display: "flex", flexFlow: "column wrap", height: "850px"}}>
             {labels.map((label) =>(
-                <li key={label.id} className="label-list-item">
+                <div key={label.id} className="label-list-item">
                     <p>{label.labelCode} {label.labelAlias} {label.company}</p>
-                </li>
+                </div>
             ))}
-        </ul>
-    )
+        </div>
+    );
 };
 
 export default LabelList;

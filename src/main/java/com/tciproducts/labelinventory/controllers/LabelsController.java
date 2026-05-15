@@ -41,7 +41,6 @@ public class LabelsController {
 
     @PutMapping("/{id}")
     public Labels updateLabelById(@PathVariable Integer id, @RequestBody Labels updatedLabel) {
-
         return labelsService.updateLabelById(id, updatedLabel);
     }
 
