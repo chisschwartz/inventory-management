@@ -9,11 +9,11 @@ const InventoryList = () => {
     const [labels, setLabels] = useState([]);
     const [isCreateLabel, setCreateLabel] = useState(false)
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(51);
-    const indexOfLastLabel = currentPage * itemsPerPage;
-    const indexOfFirstLabel = indexOfLastLabel - itemsPerPage;
-    const currentLabels = labels.slice(indexOfFirstLabel, indexOfLastLabel);    
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [itemsPerPage] = useState(51);
+    // const indexOfLastLabel = currentPage * itemsPerPage;
+    // const indexOfFirstLabel = indexOfLastLabel - itemsPerPage;
+    // const currentLabels = labels.slice(indexOfFirstLabel, indexOfLastLabel);    
 
     useEffect(() => {
         
@@ -58,22 +58,22 @@ const InventoryList = () => {
     };
 
     return (
-        <div>
-            <LabelList labels={currentLabels} />
-            <Pagination
-                itemsPerPage={itemsPerPage}
-                totalItems={labels.length}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                />
-        </div>
-        // <div style={{display: "flex", flexFlow: "column wrap",  height: "10000px"}}>
-        //     {labels.map((label) => (
-        //         <div key={label.id} className="label-display">
-        //                 <p>{label.labelCode} {label.labelAlias} {label.company}</p>
-        //         </div>
-        //     ))}
+        // <div>
+        //     <LabelList labels={currentLabels} />
+        //     <Pagination
+        //         itemsPerPage={itemsPerPage}
+        //         totalItems={labels.length}
+        //         setCurrentPage={setCurrentPage}
+        //         currentPage={currentPage}
+        //         />
         // </div>
+        <div style={{display: "flex", flexFlow: "column wrap",  height: "10000px"}}>
+            {labels.map((label) => (
+                <div key={label.id} className="label-display">
+                        <p>{label.labelCode} {label.labelAlias} {label.company}</p>
+                </div>
+            ))}
+        </div>
     )
 };
 
