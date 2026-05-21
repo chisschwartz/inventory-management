@@ -9,34 +9,18 @@ const InventoryList = () => {
     const [labels, setLabels] = useState([]);
     const [isCreateLabel, setCreateLabel] = useState(false)
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(50);
-    const [totalItems, setTotalItems] = useState(0);
-    // const indexOfLastLabel = currentPage * itemsPerPage;
-    // const indexOfFirstLabel = indexOfLastLabel - itemsPerPage;
-    // const currentLabels = labels.slice(indexOfFirstLabel, indexOfLastLabel);    
-
     useEffect(() => {
         
         const fetchLabels = async () => {
-        // try {
-        //     const response = await fetch("http://localhost:5176/api/labels", {
-        //         method: 'GET',
-        //         credentials: 'include'
-        //     });
-
         try {
-            const response = await fetch(`http://localhost:5176/api/labels?page=${currentPage}&size=${itemsPerPage}&sortBy=labelCode&ascending=false`);
-
-            if(!response.ok) {
-                throw new Error(`Error! Status: ${response.status}`);
-            }
+            const response = await fetch("http://localhost:5176/api/labels", {
+                method: 'GET',
+                credentials: 'include'
+            });
 
             const data = await response.json();
-            const totalItems = response.headers.get("X-Total-Count");
             
-            setLabels(data);
-            setTotalItems(totalItems);
+            setLabels(data)
 
         } catch(error) {
             console.error("Error fetching lables: ", error);
@@ -44,7 +28,7 @@ const InventoryList = () => {
     };
 
     fetchLabels();
-    }, [currentPage, itemsPerPage]);
+    }, []);
 
     const handleDelete = async (id) => {
         try {
@@ -65,23 +49,13 @@ const InventoryList = () => {
     };
 
     return (
-        <div>
-            <LabelList labels={labels} />
-            <Pagination
-                itemsPerPage={itemsPerPage}
-                totalItems={totalItems}
-                // setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                paginate={setCurrentPage}
-                />
+        <div style={{display: "flex", flexFlow: "column wrap",  height: "800px"}}>
+            {labels.map((label) => (
+                <ul className="label-display" key={label.id}>
+                        <li>{label.labelCode} {label.labelAlias} {label.company}</li>
+                </ul>
+            ))}
         </div>
-        // <div style={{display: "flex", flexFlow: "column wrap",  height: "10000px"}}>
-        //     {labels.map((label) => (
-        //         <div className="label-display" key={label.id}>
-        //                 <p key={label.id}>{label.labelCode} {label.labelAlias} {label.company}</p>
-        //         </div>
-        //     ))}
-        // </div>
     )
 };
 

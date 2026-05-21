@@ -18,24 +18,4 @@ public class Labels extends AbstractEntity {
     private String labelAlias;
 
     private String company;
-
-//    @Size(max = 2, message = "label size needs to be 2 characters")
-//    private String labelSize;
-//
-//    @Nullable
-//    private Integer quantity;
-//
-//    @Nullable
-//    public Integer getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(@Nullable Integer quantity) {
-//        this.quantity = quantity;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return labelSize;
-//    }
 }
