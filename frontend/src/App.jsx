@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<CreateLabel />} /> */}
-          <Route path="/" element={<InventoryList />} />
+          <Route path="/labels" element={<InventoryList />} />
         </Routes>
       </BrowserRouter>
     </>

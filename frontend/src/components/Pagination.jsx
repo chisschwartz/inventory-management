@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Pagination.css";
 
-const Pagination = ({ itemsPerPage, totalItems, setCurrentPage, currentPage }) => {
+const Pagination = ({ itemsPerPage, totalItems, pageinate, currentPage }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const pageNumbers = [];
@@ -10,9 +10,9 @@ const Pagination = ({ itemsPerPage, totalItems, setCurrentPage, currentPage }) =
         pageNumbers.push(i);
     }
 
-    const pageinate = (pageNumber, e) => {
+    const handleClick = (e, number) => {
         e.preventDefault();
-        setCurrentPage(pageNumber);
+        pageinate(number);
     };
 
 
@@ -25,7 +25,7 @@ const Pagination = ({ itemsPerPage, totalItems, setCurrentPage, currentPage }) =
             className={`page-item ${currentPage === number ? "active" : ""}`}
           >
             <a
-              onClick={(e) => paginate(number, e)}
+              onClick={(e) => handleClick(e, number)}
               href="!#"
               className="page-link"
             >

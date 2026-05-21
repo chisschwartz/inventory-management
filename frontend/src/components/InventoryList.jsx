@@ -9,8 +9,9 @@ const InventoryList = () => {
     const [labels, setLabels] = useState([]);
     const [isCreateLabel, setCreateLabel] = useState(false)
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [itemsPerPage] = useState(51);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(50);
+    const [totalItems, setTotalItems] = useState(0);
     // const indexOfLastLabel = currentPage * itemsPerPage;
     // const indexOfFirstLabel = indexOfLastLabel - itemsPerPage;
     // const currentLabels = labels.slice(indexOfFirstLabel, indexOfLastLabel);    
@@ -18,26 +19,32 @@ const InventoryList = () => {
     useEffect(() => {
         
         const fetchLabels = async () => {
+        // try {
+        //     const response = await fetch("http://localhost:5176/api/labels", {
+        //         method: 'GET',
+        //         credentials: 'include'
+        //     });
+
         try {
-            const response = await fetch(`http://localhost:5176/api/labels/all`, {
-                method: 'GET',
-                credentials: 'include'
-            });
+            const response = await fetch(`http://localhost:5176/api/labels?page=${currentPage}&size=${itemsPerPage}&sortBy=labelCode&ascending=false`);
 
             if(!response.ok) {
                 throw new Error(`Error! Status: ${response.status}`);
             }
 
             const data = await response.json();
+            const totalItems = response.headers.get("X-Total-Count");
+            
             setLabels(data);
+            setTotalItems(totalItems);
 
         } catch(error) {
             console.error("Error fetching lables: ", error);
         }
-    }
+    };
 
     fetchLabels();
-    }, []);
+    }, [currentPage, itemsPerPage]);
 
     const handleDelete = async (id) => {
         try {
@@ -58,22 +65,23 @@ const InventoryList = () => {
     };
 
     return (
-        // <div>
-        //     <LabelList labels={currentLabels} />
-        //     <Pagination
-        //         itemsPerPage={itemsPerPage}
-        //         totalItems={labels.length}
-        //         setCurrentPage={setCurrentPage}
-        //         currentPage={currentPage}
-        //         />
-        // </div>
-        <div style={{display: "flex", flexFlow: "column wrap",  height: "10000px"}}>
-            {labels.map((label) => (
-                <div key={label.id} className="label-display">
-                        <p>{label.labelCode} {label.labelAlias} {label.company}</p>
-                </div>
-            ))}
+        <div>
+            <LabelList labels={labels} />
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={totalItems}
+                // setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                paginate={setCurrentPage}
+                />
         </div>
+        // <div style={{display: "flex", flexFlow: "column wrap",  height: "10000px"}}>
+        //     {labels.map((label) => (
+        //         <div className="label-display" key={label.id}>
+        //                 <p key={label.id}>{label.labelCode} {label.labelAlias} {label.company}</p>
+        //         </div>
+        //     ))}
+        // </div>
     )
 };
 
