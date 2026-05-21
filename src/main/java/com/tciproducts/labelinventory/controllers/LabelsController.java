@@ -21,10 +21,10 @@ public class LabelsController {
     @Autowired
     private LabelsService labelsService;
 
-    @GetMapping
+    @GetMapping("/paged")
     public Page<Labels> getAllPaginatedLabels(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "30") int size,
+            @RequestParam(defaultValue = "50") int size,
             @RequestParam(defaultValue = "labelCode") String sortBy,
             @RequestParam(defaultValue = "true") boolean ascending) {
 
@@ -33,7 +33,7 @@ public class LabelsController {
         return labelsService.getPaginatedLabels(pageable);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public Iterable<Labels> getAllLabels() {
         return labelsService.getAllLabels();
     }

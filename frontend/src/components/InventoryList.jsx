@@ -19,7 +19,7 @@ const InventoryList = () => {
         
         const fetchLabels = async () => {
         try {
-            const response = await fetch("http://localhost:5176/api/labels", {
+            const response = await fetch(`http://localhost:5176/api/labels/all`, {
                 method: 'GET',
                 credentials: 'include'
             });
