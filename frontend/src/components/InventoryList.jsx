@@ -49,10 +49,12 @@ const InventoryList = () => {
     };
 
     return (
-        <div style={{display: "flex", flexFlow: "column wrap",  height: "800px"}}>
+        <div className="label-container">
             {labels.map((label) => (
                 <ul className="label-display" key={label.id}>
-                        <li>{label.labelCode} {label.labelAlias} {label.company}</li>
+                        <li>Label Code: {label.labelCode}</li>
+                        <li>Label Alias: {label.labelAlias}</li>
+                        <li>Company: {label.company}</li>
                 </ul>
             ))}
         </div>

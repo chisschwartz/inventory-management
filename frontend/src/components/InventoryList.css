@@ -1,7 +1,12 @@
 .label-display {
-    padding: auto;
-    /* font-size: large; */
-    margin: auto;
+    font-size: large;
+}
+
+.label-container {
+    display: inline-flex; 
+    flex-flow: row wrap;  
+    justify-content: center;
+    align-items: center;
 }
 
 body {
@@ -10,10 +15,10 @@ body {
 
 ul {
     list-style: none;
-    width: 150px;
-    height: 50px;
-    padding: 50px;
-    margin: 0;
+    width: 450px;
+    height: 75px;
+    padding: auto;
+    margin: auto;
     border-style: solid;
     border-color: black;
 }
