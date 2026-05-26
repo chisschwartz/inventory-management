@@ -3,11 +3,12 @@ import CreateLabel from "./CreateLabel";
 import "./InventoryList.css";
 import LabelList from "./LabelList";
 import Pagination from "./Pagination";
-
+import FilterTable from "./FilterTable";
 
 const InventoryList = () => {
     const [labels, setLabels] = useState([]);
-    const [isCreateLabel, setCreateLabel] = useState(false)
+    const [isCreateLabel, setCreateLabel] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         
@@ -50,15 +51,26 @@ const InventoryList = () => {
 
     return (
         <div className="label-container">
-            {labels.map((label) => (
-                <ul className="label-display" key={label.id}>
-                        <li>Label Code: {label.labelCode}</li>
-                        <li>Label Alias: {label.labelAlias}</li>
-                        <li>Company: {label.company}</li>
-                </ul>
-            ))}
+            <table className="label-display">
+                <thead>
+                    <tr>
+                        <th>Label Code</th>
+                        <th>Label Alias</th>
+                        <th>Company</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {labels.map(label => (
+                        <tr key={label.id}>
+                            <td>{label.labelCode}</td>
+                            <td>{label.labelAlias}</td>
+                            <td>{label.company}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
-    )
+    );
 };
 
 export default InventoryList;

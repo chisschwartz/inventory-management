@@ -1,19 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
 .label-display {
     font-size: large;
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: left;
+    width: 50%;
+    padding: 5px;
+    text-align: left;
+    /* margin-left: auto;
+    margin-right: auto; */
 }
 
 .label-container {
-    display: inline-flex; 
-    flex-flow: row wrap;  
-    justify-content: center;
-    align-items: center;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.label-container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
 body {
     background-color: white;
 }
 
-ul {
+/* ul {
     list-style: none;
     width: 450px;
     height: 75px;
@@ -21,4 +41,4 @@ ul {
     margin: auto;
     border-style: solid;
     border-color: black;
-}
+} */
