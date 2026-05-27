@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import CreateLabel from "./CreateLabel";
 import "./InventoryList.css";
-import LabelList from "./LabelList";
-import Pagination from "./Pagination";
-import FilterTable from "./FilterTable";
+// import LabelList from "./LabelList";
+// import Pagination from "./Pagination";
+// import FilterTable from "./FilterTable";
 
 const InventoryList = () => {
     const [labels, setLabels] = useState([]);
     const [isCreateLabel, setCreateLabel] = useState(false);
 
     useEffect(() => {
+        fetchLabels();
+    }, []);
         
         const fetchLabels = async () => {
         try {
@@ -26,9 +28,6 @@ const InventoryList = () => {
             console.error("Error fetching lables: ", error);
         }
     };
-
-    fetchLabels();
-    }, []);
 
     const handleDelete = async (id) => {
         try {
@@ -50,6 +49,10 @@ const InventoryList = () => {
 
     return (
         <div className="label-container">
+            {!isCreateLabel ? <button onClick={() => {
+                setCreateLabel(true);
+            }}>Create Label</button> : ""}
+            {isCreateLabel ? <CreateLabel onLabelCreated={fetchLabels} setCreateLabel={setCreateLabel}/> :
             <table className="label-display">
                 <thead>
                     <tr>
@@ -68,6 +71,7 @@ const InventoryList = () => {
                     ))}
                 </tbody>
             </table>
+        }
         </div>
     );
 };
