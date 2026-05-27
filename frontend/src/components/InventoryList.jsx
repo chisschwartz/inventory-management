@@ -33,7 +33,8 @@ const InventoryList = () => {
         try {
             const response = await fetch(`http://localhost:5176/api/labels/${id}`, {
                 method: 'DELETE',
-                credentials: 'include'
+                credentials: 'include',
+                headers: {'Content-type': 'application/json'}
             });
 
             if(!response.ok) {
@@ -67,6 +68,7 @@ const InventoryList = () => {
                             <td>{label.labelCode}</td>
                             <td>{label.labelAlias}</td>
                             <td>{label.company}</td>
+                            <td><button onClick={() => handleDelete(label.id)}>DELETE</button></td>
                         </tr>
                     ))}
                 </tbody>
