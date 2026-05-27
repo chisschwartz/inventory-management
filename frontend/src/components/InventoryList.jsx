@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react"
 import CreateLabel from "./CreateLabel";
 import "./InventoryList.css";
-// import LabelList from "./LabelList";
-// import Pagination from "./Pagination";
-// import FilterTable from "./FilterTable";
+// import EditLabel from "./EditLabel";
 
 const InventoryList = () => {
     const [labels, setLabels] = useState([]);
     const [isCreateLabel, setCreateLabel] = useState(false);
+    // const [editingLabel, setEditingLabel] = useState(null);
 
     useEffect(() => {
         fetchLabels();
-    }, []);
+    }, [editingLabel]);
         
-        const fetchLabels = async () => {
+    const fetchLabels = async () => {
         try {
             const response = await fetch("http://localhost:5176/api/labels", {
                 method: 'GET',
@@ -54,6 +53,11 @@ const InventoryList = () => {
                 setCreateLabel(true);
             }}>Create Label</button> : ""}
             {isCreateLabel ? <CreateLabel onLabelCreated={fetchLabels} setCreateLabel={setCreateLabel}/> :
+                            //             <div>
+                            //                                 {editingLabel === label.id ? (
+                            //     <EditLabel label={label} onUpdate={() => {fetchLabels(); setEditingLabel(null);}} onCancel={() => setEditingLabel(null)} /> 
+                            // ) : (
+                            // </div>
             <table className="label-display">
                 <thead>
                     <tr>
