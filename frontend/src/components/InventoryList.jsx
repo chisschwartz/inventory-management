@@ -8,7 +8,6 @@ import FilterTable from "./FilterTable";
 const InventoryList = () => {
     const [labels, setLabels] = useState([]);
     const [isCreateLabel, setCreateLabel] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         
