@@ -10,7 +10,7 @@ const InventoryList = () => {
 
     useEffect(() => {
         fetchLabels();
-    }, [editingLabel]);
+    }, []);
         
     const fetchLabels = async () => {
         try {

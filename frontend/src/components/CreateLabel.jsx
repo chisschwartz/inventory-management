@@ -41,7 +41,6 @@ const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
     };
 
     return(
-
         <form className="add-label-form" onSubmit={handleSubmit}>
             <input type="text" placeholder="Label Code" value={labelCode} onChange={(e) => setLabelCode(e.target.value)} required/>
             <input type="text" placeholder="Label Name" value={labelAlias} onChange={(e) => setLabelAlias(e.target.value)} required/>
