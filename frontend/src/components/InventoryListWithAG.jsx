@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
 import CreateLabel from "./CreateLabel";
-import CreateLabelRedirect from "./CreateLabelRedirect";
 // import "./InventoryList.css";
 import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
@@ -13,9 +12,6 @@ const InventoryListAG = () => {
         { field: "labelCode"},
         { field: "labelAlias"},
         { field: "company"},
-        // { field: "Create Label",
-        //     cellRenderer: CreateLabelRedirect
-        // }
     ]);
 
     const defaultColDef = useMemo(() => {
@@ -63,10 +59,12 @@ const InventoryListAG = () => {
     // };
 
  return (
-    <div className="label-container">
+    <div>
+        <div className="create-label-button">
         {!isCreateLabel ? <button onClick={() => {
             setCreateLabel(true);
             }}>Create Label</button> : ""}
+            </div>
             {isCreateLabel ? <CreateLabel onLabelCreated={fetchLabels} setCreateLabel={setCreateLabel}/> :
     <AgGridProvider modules={[AllCommunityModule]}>
       <div className="ag-theme-alpine" style={{ width: "500px", height: "500px" }}>
