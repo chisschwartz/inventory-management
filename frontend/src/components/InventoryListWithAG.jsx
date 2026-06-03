@@ -58,28 +58,28 @@ const InventoryListAG = () => {
     //     }
     // };
 
- return (
-    <div>
-        <div className="create-label-button">
-        {!isCreateLabel ? <button onClick={() => {
-            setCreateLabel(true);
-            }}>Create Label</button> : ""}
+    return (
+        <div>
+            <div className="create-label-button">
+                {!isCreateLabel ? <button onClick={() => {
+                    setCreateLabel(true);
+                }}>Create Label</button> : ""}
             </div>
-            {isCreateLabel ? <CreateLabel onLabelCreated={fetchLabels} setCreateLabel={setCreateLabel}/> :
-    <AgGridProvider modules={[AllCommunityModule]}>
-      <div className="ag-theme-alpine" style={{ width: "500px", height: "500px" }}>
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={colDefs}
-          defaultColDef={defaultColDef}
-          pagination={true}
-          debug={true}
-        />
-      </div>
-    </AgGridProvider>
-    }
-    </div>
-  );
+            {isCreateLabel ? <CreateLabel onLabelCreated={fetchLabels} setCreateLabel={setCreateLabel} /> :
+                <AgGridProvider modules={[AllCommunityModule]}>
+                    <div className="ag-theme-alpine" style={{ width: "1000px", height: "1000px"}}>
+                        <AgGridReact
+                            rowData={rowData}
+                            columnDefs={colDefs}
+                            defaultColDef={defaultColDef}
+                            pagination={true}
+                            debug={true}
+                        />
+                    </div>
+                </AgGridProvider>
+            }
+        </div>
+    );
 };
 
 export default InventoryListAG;
