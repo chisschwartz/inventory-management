@@ -1,10 +1,14 @@
 package com.tciproducts.labelinventory.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
+// import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "labels")
@@ -18,4 +22,8 @@ public class Labels extends AbstractEntity {
     private String labelAlias;
 
     private String company;
+
+    @OneToMany
+    @JoinColumn (name = "labelCode", referencedColumnName = "labelCode")
+    private Set<Sizing> sizes;
 }
