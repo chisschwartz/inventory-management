@@ -41,7 +41,7 @@ const FilteredItems = () => {
     return (
         <div>
                 <AgGridProvider modules={[AllCommunityModule]}>
-                    <div className="ag-theme-alpine" style={{ width: "1000px", height: "1000px"}}>
+                    <div className="ag-theme-alpine" style={{ width: "1000px", height: "500px"}}>
                         <AgGridReact
                             rowData={rowData}
                             columnDefs={colDefs}

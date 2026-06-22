@@ -1,15 +1,23 @@
 import { useEffect, useMemo, useState } from "react"
 import CreateLabel from "./CreateLabel";
-// import "./InventoryList.css";
 import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import { InventoryLinkRenderer } from "./InventoryLinkRenderer";
 
 const InventoryListAG = () => {
     const [isCreateLabel, setCreateLabel] = useState(false);
     const [rowData, setRowData] = useState([]);
     const [colDefs, setColDefs] = useState ([
-        { field: "labelCode"},
+        { field: "labelCode",
+            cellRenderer: InventoryLinkRenderer,
+            // cellRenderer: function(params) {
+            //     let labelCodeData = params.data.labelCode;
+            //     let link = 
+            //     `<a href= http://localhost:5176/labels/size/${labelCodeData} target="_blank">${labelCodeData}</a>`;
+            //     return link;
+            // },
+        },
         { field: "labelAlias"},
         { field: "company"}
     ]);
@@ -43,7 +51,6 @@ const InventoryListAG = () => {
     //     try {
     //         const response = await fetch(`http://localhost:5176/api/labels/${id}`, {
     //             method: 'DELETE',
-    //             credentials: 'include',
     //             headers: {'Content-type': 'application/json'}
     //         });
 
