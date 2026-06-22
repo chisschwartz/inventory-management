@@ -1,9 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
 .label-display {
-    padding: auto;
-    /* font-size: large; */
-    margin: auto;
+    font-size: large;
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: left;
+    width: 50%;
+    padding: 5px;
+    text-align: left;
+    /* margin-left: auto;
+    margin-right: auto; */
+}
+
+.label-container {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.label-container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
 body {
     background-color: white;
 }
+
+/* ul {
+    list-style: none;
+    width: 450px;
+    height: 75px;
+    padding: auto;
+    margin: auto;
+    border-style: solid;
+    border-color: black;
+} */

@@ -19,6 +19,7 @@ const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
             const response = await fetch("http://localhost:5176/api/labels", {
                 method: 'POST',
                 credentials: 'include',
+                headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(labelData)
             });
 
@@ -27,6 +28,7 @@ const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
             }
 
             const data = await response.json();
+            console.log("label created:", data);
             onLabelCreated();
             setLabelCode('');
             setLabelAlias('');
@@ -39,7 +41,6 @@ const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
     };
 
     return(
-
         <form className="add-label-form" onSubmit={handleSubmit}>
             <input type="text" placeholder="Label Code" value={labelCode} onChange={(e) => setLabelCode(e.target.value)} required/>
             <input type="text" placeholder="Label Name" value={labelAlias} onChange={(e) => setLabelAlias(e.target.value)} required/>

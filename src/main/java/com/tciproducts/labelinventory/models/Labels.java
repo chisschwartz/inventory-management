@@ -1,10 +1,14 @@
 package com.tciproducts.labelinventory.models;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Primary;
 
 @Entity
 @Table(name = "labels")
@@ -19,23 +23,7 @@ public class Labels extends AbstractEntity {
 
     private String company;
 
-//    @Size(max = 2, message = "label size needs to be 2 characters")
-//    private String labelSize;
-//
-//    @Nullable
-//    private Integer quantity;
-//
-//    @Nullable
-//    public Integer getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(@Nullable Integer quantity) {
-//        this.quantity = quantity;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return labelSize;
-//    }
+    @OneToMany
+    @JoinColumn (name = "label_code", referencedColumnName = "labelCode")
+    private Set<Sizing> sizes;
 }
