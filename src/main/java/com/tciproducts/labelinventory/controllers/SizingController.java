@@ -30,6 +30,11 @@ public class SizingController {
         return sizingService.saveSizing(sizing);
     }
 
+    @PutMapping("/{id}")
+    public Sizing updateSizingById(@PathVariable Integer id, @RequestBody Sizing updatedSizing) {
+        return sizingService.updateSizingById(id, updatedSizing);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteSizeById(@PathVariable Integer id) {
         sizingService.deleteSizeById(id);

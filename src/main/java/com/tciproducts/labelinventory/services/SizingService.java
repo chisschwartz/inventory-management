@@ -36,4 +36,17 @@ public class SizingService {
         Sizing sizing = results.get();
         sizingRepository.delete(sizing);
     }
+
+    public Sizing updateSizingById(Integer id, Sizing updatedSizing) {
+        Optional<Sizing> results = sizingRepository.findById(id);
+
+        if(results.isEmpty()) {
+            throw new RuntimeException("label does not exist at id:" + id);
+        }
+
+        Sizing sizing = results.get();
+        sizing.setQuantity(updatedSizing.getQuantity());
+//        sizing.setSize(updatedSizing.getSize());
+        return sizingRepository.save(sizing);
+    }
 }
