@@ -21,4 +21,19 @@ public class SizingService {
     public List<Sizing> getSizeByLabelCode(Integer labelCode) {
         return sizingRepository.findByLabelCode(labelCode);
     }
+
+    public Sizing saveSizing(Sizing sizing) {
+        return sizingRepository.save(sizing);
+    }
+
+    public void deleteSizeById(Integer id) {
+        Optional<Sizing> results = sizingRepository.findById(id);
+
+        if(results.isEmpty()) {
+            throw new RuntimeException("label does not exist at id:" + id);
+        }
+
+        Sizing sizing = results.get();
+        sizingRepository.delete(sizing);
+    }
 }
