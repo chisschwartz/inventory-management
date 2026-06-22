@@ -6,6 +6,7 @@ import CreateLabel from './components/CreateLabel'
 
 import InventoryListAG from './components/InventoryListWithAG';
 import IndividualItems from './components/IndividualItems';
+import FilteredItems from './components/FilteredItems';
 import { AllCommunityModule } from 'ag-grid-community';
 import { AgGridProvider } from 'ag-grid-react';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/labels" element={<InventoryListAG />} />
           <Route path="/labels/create" element={<CreateLabel />} />
           <Route path="/labels/size" element={<IndividualItems />} />
+          <Route path="/labels/size/:labelCode" element={<FilteredItems />} />
         </Routes>
       </BrowserRouter>
     </>
