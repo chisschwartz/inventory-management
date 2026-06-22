@@ -22,18 +22,6 @@ public class LabelsController {
     @Autowired
     private LabelsService labelsService;
 
-//    @GetMapping
-//    public Page<Labels> getAllPaginatedLabels(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "50") int size,
-//            @RequestParam(defaultValue = "labelCode") String sortBy,
-//            @RequestParam(defaultValue = "true") boolean ascending) {
-//
-//        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-//        Pageable pageable = PageRequest.of(page, size, sort);
-//        return labelsService.getPaginatedLabels(pageable);
-//    }
-
     @GetMapping()
     public Iterable<Labels> getAllLabels() {
         return labelsService.getAllLabels();

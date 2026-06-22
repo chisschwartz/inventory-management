@@ -2,7 +2,7 @@ package com.tciproducts.labelinventory.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +17,6 @@ public class Sizing extends AbstractEntity {
 
     private Integer quantity;
 
-    @Column(name = "labelCode")
-    private int labelCode;
+    @Column(name = "label_code")
+    private int label_code;
 }

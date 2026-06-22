@@ -12,6 +12,7 @@ const InventoryListAG = () => {
         { field: "labelCode"},
         { field: "labelAlias"},
         { field: "company"},
+        { field: "sizes"}
     ]);
 
     const defaultColDef = useMemo(() => {

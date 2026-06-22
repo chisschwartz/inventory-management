@@ -14,10 +14,6 @@ public class LabelsService {
     @Autowired
     private LabelsRepository labelsRepository;
 
-//    public Page<Labels> getPaginatedLabels (Pageable pageable) {
-//        return labelsRepository.findAll(pageable);
-//    }
-
     public Iterable<Labels> getAllLabels() {
         return labelsRepository.findAll();
     }
