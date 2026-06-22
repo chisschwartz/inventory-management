@@ -18,5 +18,5 @@ public class Sizing extends AbstractEntity {
     private Integer quantity;
 
     @Column(name = "label_code")
-    private int label_code;
+    private int labelCode;
 }
