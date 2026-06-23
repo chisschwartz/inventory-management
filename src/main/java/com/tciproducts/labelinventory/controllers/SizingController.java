@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/labels/size")
@@ -20,10 +21,16 @@ public class SizingController {
         return sizingService.getAllSizes();
     }
 
-    @GetMapping("/{labelCode}")
+    @GetMapping("/code/{labelCode}")
     public List<Sizing> getSizeByLabelCode(@PathVariable Integer labelCode) {
         return sizingService.getSizeByLabelCode(labelCode);
     }
+
+    @GetMapping("/id/{id}")
+    public Optional<Sizing> getSizeById(@PathVariable Integer id) {
+        return sizingService.getSizeById(id);
+    }
+
 
     @PostMapping()
     public Sizing saveSizing(@RequestBody Sizing sizing) {
