@@ -26,10 +26,10 @@ public class SizingController {
         return sizingService.getSizeByLabelCode(labelCode);
     }
 
-    @GetMapping("/id/{id}")
-    public Optional<Sizing> getSizeById(@PathVariable Integer id) {
-        return sizingService.getSizeById(id);
-    }
+//    @GetMapping("/id/{id}")
+//    public Optional<Sizing> getSizeById(@PathVariable Integer id) {
+//        return sizingService.getSizeById(id);
+//    }
 
 
     @PostMapping()

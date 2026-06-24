@@ -26,9 +26,9 @@ public class SizingService {
         return sizingRepository.save(sizing);
     }
 
-    public Optional<Sizing> getSizeById(Integer id) {
-        return sizingRepository.findById(id);
-    }
+//    public Optional<Sizing> getSizeById(Integer id) {
+//        return sizingRepository.findById(id);
+//    }
 
     public void deleteSizeById(Integer id) {
         Optional<Sizing> results = sizingRepository.findById(id);
