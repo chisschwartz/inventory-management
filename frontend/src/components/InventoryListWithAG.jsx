@@ -4,7 +4,7 @@ import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { InventoryLinkRenderer } from "./InventoryLinkRenderer";
-import { EditButtonRenderer } from "./EditButtonRenderer";
+import { DeleteButtonRenderer } from "./DeleteButtonRenderer";
 
 const InventoryListAG = () => {
      const fetchLabels = async () => {
@@ -29,7 +29,14 @@ const InventoryListAG = () => {
             cellRenderer: InventoryLinkRenderer,
         },
         { field: "labelAlias"},
-        { field: "company"}
+        { field: "company"},
+                {
+            headerName: "Delete",
+            cellRenderer: DeleteButtonRenderer,
+            cellRendererParams: {
+                onDeleteComplete: fetchLabels
+            },
+        }
     ]);
 
     const defaultColDef = useMemo(() => {
@@ -70,7 +77,7 @@ const InventoryListAG = () => {
             </div>
             {isCreateLabel ? <CreateLabel onLabelCreated={fetchLabels} setCreateLabel={setCreateLabel} /> :
                 <AgGridProvider modules={[AllCommunityModule]}>
-                    <div className="ag-theme-alpine" style={{ width: "1000px", height: "1000px"}}>
+                    <div className="ag-theme-alpine" style={{ width: "75%", height: "1000px"}}>
                         <AgGridReact
                             rowData={rowData}
                             columnDefs={colDefs}
