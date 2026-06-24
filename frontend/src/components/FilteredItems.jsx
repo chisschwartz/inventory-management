@@ -3,27 +3,10 @@ import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useParams } from "react-router-dom";
+import { EditButtonRenderer } from "./EditButtonRenderer";
 
 const FilteredItems = () => {
-    const { labelCode } = useParams();
-    const [rowData, setRowData] = useState([]);
-    const [colDefs, setColDefs] = useState ([
-        { field: "labelCode"},
-        { field: "size"},
-        { field: "quantity"}
-    ]);
-
-    const defaultColDef = useMemo(() => {
-        return {
-        flex: 1,
-        filter: true,
-        };
-    }, []);
-
-    useEffect(() => {
-        fetchItems();
-    }, []);
-        
+    
     const fetchItems = async () => {
         try {
             const response = await fetch(`http://localhost:5176/api/labels/size/code/${labelCode}`, {
@@ -37,11 +20,37 @@ const FilteredItems = () => {
             console.error("Error fetching lables: ", error);
         }
     };
+    
+    const { labelCode } = useParams();
+    const [rowData, setRowData] = useState([]);
+    const [colDefs, setColDefs] = useState ([
+        { field: "labelCode"},
+        { field: "size"},
+        { field: "quantity"},
+        {
+            headerName: "Update Quantity",
+            cellRenderer: EditButtonRenderer,
+            cellRendererParams: {
+                onEditComplete: fetchItems
+            },
+        }
+    ]);
+
+    const defaultColDef = useMemo(() => {
+        return {
+        flex: 1,
+        filter: true,
+        };
+    }, []);
+
+    useEffect(() => {
+        fetchItems();
+    }, []);
 
     return (
         <div>
                 <AgGridProvider modules={[AllCommunityModule]}>
-                    <div className="ag-theme-alpine" style={{ width: "1000px", height: "500px"}}>
+                    <div className="ag-theme-alpine" style={{ width: "1500px", height: "500px"}}>
                         <AgGridReact
                             rowData={rowData}
                             columnDefs={colDefs}

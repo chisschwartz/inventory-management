@@ -1,0 +1,115 @@
+import { useState } from 'react';
+// import { DynamicUrl } from './DynamicUrl';
+
+export function EditButtonRenderer(params) {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editData, setEditData] = useState(params.data);
+    const [loading, setLoading] = useState(false);
+
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditData(params.data);
+    };
+
+    const handleSave = async () => {
+        setLoading(true);
+
+        try {
+            const response = await fetch(
+                `http://localhost:5176/api/labels/size/${params.data.id}`,
+                {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(editData)
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Error! Status: ${response.status}`);
+            }
+
+            setIsEditing(false);
+            if (params.onEditComplete) {
+                params.onEditComplete();
+            }
+
+        } catch (error) {
+            console.error('Error updating item:', error);
+            alert('Failed to update item');
+
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (field, value) => {
+        setEditData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    if (isEditing) {
+        return (
+            <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                <input
+                    type="text"
+                    value={editData.quantity || ''}
+                    onChange={(e) => handleInputChange('quantity', e.target.value)}
+                    style={{ width: '60px', padding: '4px' }}
+                />
+                <button
+                    onClick={handleSave}
+                    disabled={loading}
+                    style={{
+                        padding: '4px 8px',
+                        backgroundColor: '#28a745',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '3px',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                        fontSize: '12px'
+                    }}
+                >
+                    {loading ? 'Saving...' : 'Save'}
+                </button>
+                <button
+                    onClick={handleCancel}
+                    disabled={loading}
+                    style={{
+                        padding: '4px 8px',
+                        backgroundColor: '#dc3545',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '3px',
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                        fontSize: '12px'
+                    }}
+                >
+                    Cancel
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <button
+            onClick={handleEdit}
+            style={{
+                padding: '6px 12px',
+                backgroundColor: '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '3px',
+                cursor: 'pointer',
+                fontSize: '12px'
+            }}
+        >
+            Update
+        </button>
+    );
+}
