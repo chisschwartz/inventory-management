@@ -3,6 +3,7 @@ import CreateLabel from "./CreateLabel";
 import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+// import fetchItems from "./FilteredItems";
 import { InventoryLinkRenderer } from "./InventoryLinkRenderer";
 
 const InventoryListAG = () => {
@@ -10,11 +11,12 @@ const InventoryListAG = () => {
     const [rowData, setRowData] = useState([]);
     const [colDefs, setColDefs] = useState ([
         { field: "labelCode",
+            headerName: "Label Code",
             cellRenderer: InventoryLinkRenderer,
-            // cellRenderer: function(params) {
+            // cellRenderer: (params) => {
             //     let labelCodeData = params.data.labelCode;
             //     let link = 
-            //     `<a href= http://localhost:5176/labels/size/${labelCodeData} target="_blank">${labelCodeData}</a>`;
+            //     `<a href= http://localhost:5176/labels/size/code${labelCodeData} target="_blank">${labelCodeData}</a>`;
             //     return link;
             // },
         },
@@ -31,6 +33,7 @@ const InventoryListAG = () => {
 
     useEffect(() => {
         fetchLabels();
+        // fetchItems();
     }, []);
         
     const fetchLabels = async () => {

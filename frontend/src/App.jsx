@@ -21,7 +21,7 @@ function App() {
           <Route path="/labels" element={<InventoryListAG />} />
           <Route path="/labels/create" element={<CreateLabel />} />
           <Route path="/labels/size" element={<IndividualItems />} />
-          <Route path="/labels/size/:labelCode" element={<FilteredItems />} />
+          <Route path="/labels/size/code/:labelCode" element={<FilteredItems />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -26,7 +26,7 @@ const FilteredItems = () => {
         
     const fetchItems = async () => {
         try {
-            const response = await fetch(`http://localhost:5176/api/labels/size/${labelCode}`, {
+            const response = await fetch(`http://localhost:5176/api/labels/size/code/${labelCode}`, {
                 method: 'GET'
             })
 
