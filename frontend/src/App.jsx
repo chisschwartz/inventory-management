@@ -15,7 +15,6 @@ const modules = [AllCommunityModule]
 function App() {
   return (
     <>
-    {/* <InventoryListAG /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/labels" element={<InventoryListAG />} />
