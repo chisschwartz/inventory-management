@@ -3,6 +3,7 @@ import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
+//shows all of our labels in stock and their type
 const IndividualItems = () => {
     const [rowData, setRowData] = useState([]);
     const [colDefs, setColDefs] = useState ([

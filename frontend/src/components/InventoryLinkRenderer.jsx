@@ -1,5 +1,5 @@
 
-
+//renders the label code so that when you click one it takes you to the stock we have of it.
 export function InventoryLinkRenderer(params) {
 
     const link = `http://localhost:5176/labels/size/code/${params.value}`;

@@ -7,6 +7,7 @@ import { InventoryLinkRenderer } from "./InventoryLinkRenderer";
 import { DeleteButtonRenderer } from "./DeleteButtonRenderer";
 
 const InventoryListAG = () => {
+    //fetchs our data and then applies it to the agGrid
      const fetchLabels = async () => {
         try {
             const response = await fetch("http://localhost:5176/api/labels", {
@@ -39,6 +40,7 @@ const InventoryListAG = () => {
         }
     ]);
 
+    //enables our filter and enables flex on our columns
     const defaultColDef = useMemo(() => {
         return {
         flex: 1,
@@ -46,30 +48,14 @@ const InventoryListAG = () => {
         };
     }, []);
 
+    //fetchs our labels once whenever called
     useEffect(() => {
         fetchLabels();
     }, []);
 
-    // const handleDelete = async (id) => {
-    //     try {
-    //         const response = await fetch(`http://localhost:5176/api/labels/${id}`, {
-    //             method: 'DELETE',
-    //             headers: {'Content-type': 'application/json'}
-    //         });
-
-    //         if(!response.ok) {
-    //             throw new Error(`Error! Status: ${response.status}`);
-    //         }
-            
-    //         fetchLabels();
-
-    //     } catch(error) {
-    //         console.error("Error deleting lable: ", error);
-    //     }
-    // };
-
     return (
         <div>
+            {/* creates a button that lets us add a label to the database, will need to move eventually */}
             <div className="create-label-button">
                 {!isCreateLabel ? <button onClick={() => {
                     setCreateLabel(true);

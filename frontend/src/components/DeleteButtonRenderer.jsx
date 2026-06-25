@@ -8,20 +8,24 @@ export function DeleteButtonRenderer (params) {
     const [confirmation, setConfirmation] = useState(false);
     const location = useLocation();
 
+
+    //a small double check to prevent accidental clicks
     const handleClick = () => {
         setConfirmation(true);
     };
 
+    //working on updating the url for deletion depending on the path.
     useEffect(() => {
         setUrl(location.pathname);
     }, []);
 
+    //intiates the deletion process
     const handleDelete = async() => {
         setDeleteLabel(true);
         
         try {
             const response = await fetch(
-                `http://localhost:5176/labels/${params.data.id}`, {
+                `http://localhost:5176/api/labels/${params.data.id}`, {
                     method: 'DELETE',
                     headers: {'Content-Type': 'application/json'}
                 }
@@ -44,10 +48,13 @@ export function DeleteButtonRenderer (params) {
         }
     };
 
+    //cancels the deletion process
     const handleCancel = () => {
         setConfirmation(false);
     };
 
+    //if confirmation equals true, then displays the buttons that allow deletion to happen
+    //need to make an actual css page to make this prettier
     if (confirmation) {
         return (
             <div style={{
@@ -68,6 +75,7 @@ export function DeleteButtonRenderer (params) {
                     color: 'white',
                     border: 'none',
                     borderRadius: '3px',
+                    //allows for no multiple clicks while deletion is processed
                     cursor: deleteLabel ? 'not-allowed' : 'pointer',
                     fontSize: '12px'
                 }}
@@ -77,7 +85,6 @@ export function DeleteButtonRenderer (params) {
                 <button
                 onClick={handleCancel}
                 disabled={deleteLabel}
-                //reuse of styles. Need to make a css file for use throughout the app.
                 style={{
                     padding: '4px 8px',
                     backgroundColor: '#706c6a',
@@ -107,7 +114,7 @@ export function DeleteButtonRenderer (params) {
                 fontSize: '12px'
             }}
         >
-            {url}
+            Delete
         </button>
     );
 };

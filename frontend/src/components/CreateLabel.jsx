@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 
+//provides us functionality to create items in our database
 const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
 
     const [labelCode, setLabelCode] = useState("");

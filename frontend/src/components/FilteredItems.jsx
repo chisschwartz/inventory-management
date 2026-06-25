@@ -5,6 +5,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useParams } from "react-router-dom";
 import { EditButtonRenderer } from "./EditButtonRenderer";
 
+//shows us the individual items for each label code
 const FilteredItems = () => {
     
     const fetchItems = async () => {

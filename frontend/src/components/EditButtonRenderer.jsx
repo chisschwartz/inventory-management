@@ -5,15 +5,18 @@ export function EditButtonRenderer(params) {
     const [editData, setEditData] = useState(params.data);
     const [loading, setLoading] = useState(false);
 
+    //checks to see if an edit is occuring
     const handleEdit = () => {
         setIsEditing(true);
     };
 
+    //cancels an edit
     const handleCancel = () => {
         setIsEditing(false);
         setEditData(params.data);
     };
 
+    //intiates the edit and saves to the database
     const handleSave = async () => {
         setLoading(true);
 
@@ -45,6 +48,7 @@ export function EditButtonRenderer(params) {
         }
     };
 
+    //shows the previous value within the text box, and changes that value when a new one is submitted
     const handleInputChange = (field, value) => {
         setEditData(prev => ({
             ...prev,
@@ -52,6 +56,8 @@ export function EditButtonRenderer(params) {
         }));
     };
 
+    //checks to see if editing is true before executing
+    //need css
     if (isEditing) {
         return (
             <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
@@ -95,6 +101,7 @@ export function EditButtonRenderer(params) {
         );
     }
 
+    //sets isEditing to true to and allows us to apply and save edits
     return (
         <button
             onClick={handleEdit}
