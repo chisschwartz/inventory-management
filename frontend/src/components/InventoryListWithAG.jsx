@@ -32,6 +32,7 @@ const InventoryListAG = () => {
         { field: "labelAlias"},
         { field: "company"},
                 {
+                    //should probably only render this for admins. Might just only render buttons for logged in users
             headerName: "Delete",
             cellRenderer: DeleteButtonRenderer,
             cellRendererParams: {

@@ -29,7 +29,8 @@ const IndividualItems = () => {
             headerName: "Update Quantity",
             cellRenderer: EditButtonRenderer,
             cellRendererParams: {
-                onEditComplete: fetchItems
+                onEditComplete: fetchItems,
+                url: `http://localhost:5176/api/labels/${params.data.id}`
             },
         }
     ]);

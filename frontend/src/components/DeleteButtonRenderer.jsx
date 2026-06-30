@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 
-export function DeleteButtonRenderer (params) {
-    // const [deleteLabel, setDeleteLabel] = useState(params.data);
-    const [url, setUrl] = useState('');
+export function DeleteButtonRenderer (params, url) {
     const [deleteLabel, setDeleteLabel] = useState(false);
     const [confirmation, setConfirmation] = useState(false);
-    const location = useLocation();
+    //works for deleting and having multiple api endpoints but 
+    // const urls = [`http://localhost:5176/api/labels/size/${params.data.id}`, `http://localhost:5176/api/labels/${params.data.id}`]
 
 
     //a small double check to prevent accidental clicks
     const handleClick = () => {
         setConfirmation(true);
     };
-
-    //working on updating the url for deletion depending on the path.
-    useEffect(() => {
-        setUrl(location.pathname);
-    }, []);
 
     //intiates the deletion process
     const handleDelete = async() => {
@@ -32,7 +26,7 @@ export function DeleteButtonRenderer (params) {
             );
 
                 if (!response.ok) {
-                throw new Error(`Error! Status: ${response.status}`);
+                throw new Error(`Status: ${response.status}`);
             }
 
             setConfirmation(false);
