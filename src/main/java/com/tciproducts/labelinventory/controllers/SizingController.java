@@ -3,11 +3,9 @@ package com.tciproducts.labelinventory.controllers;
 import com.tciproducts.labelinventory.models.Sizing;
 import com.tciproducts.labelinventory.services.SizingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/labels/size")
