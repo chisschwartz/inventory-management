@@ -21,6 +21,8 @@ function App() {
           <Route path="/labels/create" element={<CreateLabel />} />
           <Route path="/labels/size" element={<IndividualItems />} />
           <Route path="/labels/size/code/:labelCode" element={<FilteredItems />} />
+          <Route path="/users/user/userProfile"/>
+          <Route path="/login"/>
         </Routes>
       </BrowserRouter>
     </>
