@@ -1,22 +1,25 @@
 package com.tciproducts.labelinventory.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
+@Data
 @Table(name = "users")
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users extends AbstractEntity {
     //basic implementation will need roles for editing perms
 
+    @Column(unique = true)
     private String username;
 
     private String password;
 
-    private String roles;
+//    @Column(unique = true)
+//    private String email;
 
 //    private String email;
 //
