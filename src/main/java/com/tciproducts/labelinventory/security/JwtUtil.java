@@ -30,13 +30,13 @@ public class JwtUtil {
 
     public String generateToken(String username) {
 
-        Date issuedAtDay = new Date();
-//        Date expirationDate = new Date(issuedAtDay.getTime() + jwtExpiration);
+        Date issuedAtDay = new Date(System.currentTimeMillis());
+        Date expirationDate = new Date(System.currentTimeMillis() + 604800000);
 
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(issuedAtDay)
-//                .expiration(expirationDate)
+                .expiration(expirationDate)
                 .signWith(key)
                 .compact();
     }
