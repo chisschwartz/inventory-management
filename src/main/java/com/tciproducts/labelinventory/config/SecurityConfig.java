@@ -16,7 +16,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity(prePostEnabled = true)
+//@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/public/**").permitAll()
+                                .requestMatchers("/labels/**").permitAll()
 //                                .requestMatchers("/users/user/**").hasRole("USER")
 //                                .requestMatchers("/users/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()

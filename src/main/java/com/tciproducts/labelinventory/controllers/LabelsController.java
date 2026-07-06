@@ -22,6 +22,7 @@ public class LabelsController {
     @Autowired
     private LabelsService labelsService;
 
+    //everyone should be able to see the database
     @GetMapping()
     public Iterable<Labels> getAllLabels() {
         return labelsService.getAllLabels();
@@ -32,6 +33,7 @@ public class LabelsController {
         return labelsService.getLabelById(id);
     }
 
+    //only admins should be able to add, update and delete these labels
     @PostMapping()
     public Labels saveLabel(@RequestBody Labels label) {
         return labelsService.saveLabels(label);

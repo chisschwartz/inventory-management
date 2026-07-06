@@ -16,14 +16,16 @@ public class Users extends AbstractEntity {
 
     private String password;
 
-    private String email;
+    private String roles;
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+//    private String email;
+//
+//    @Override
+//    public String toString() {
+//        return "Users{" +
+//                "username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", email='" + email + '\'' +
+//                '}';
+//    }
 }

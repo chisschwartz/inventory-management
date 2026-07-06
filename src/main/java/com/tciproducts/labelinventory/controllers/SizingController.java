@@ -14,6 +14,7 @@ public class SizingController {
     @Autowired
     SizingService sizingService;
 
+    //everyone should be able to see stock
     @GetMapping()
     public Iterable<Sizing> getAllSizes() {
         return sizingService.getAllSizes();
@@ -30,6 +31,7 @@ public class SizingController {
 //    }
 
 
+    //users should be able to add inventory items and edit inventory
     @PostMapping()
     public Sizing saveSizing(@RequestBody Sizing sizing) {
         return sizingService.saveSizing(sizing);
@@ -40,6 +42,7 @@ public class SizingController {
         return sizingService.updateSizingById(id, updatedSizing);
     }
 
+    //only admins should be able to delete
     @DeleteMapping("/{id}")
     public void deleteSizeById(@PathVariable Integer id) {
         sizingService.deleteSizeById(id);
