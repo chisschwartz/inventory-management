@@ -12,6 +12,7 @@ import java.io.IOException;
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
+    //starts off authentication and returns 401 if not a signed in user
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,

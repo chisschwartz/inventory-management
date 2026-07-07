@@ -86,8 +86,6 @@ public class SecurityConfig {
 //                .httpBasic(withDefaults());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//                .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/labels").permitAll())
-//                .logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll());
 
         return http.build();
     }

@@ -19,7 +19,9 @@ import java.io.IOException;
 @Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
 
+    //the beginning of all tokens
     public static final String BEARER_ = "Bearer ";
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -33,6 +35,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
+            //grabs username from a valid token then makes sure password matches database password
             String jwt = parseJwt(request);
 
             if (jwt != null && jwtUtil.validateJwtToken(jwt)) {
@@ -58,6 +61,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    //puts our token into the header
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 

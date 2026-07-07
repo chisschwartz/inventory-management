@@ -33,6 +33,7 @@ public class AuthenticationTestController {
         this.jwtUtil = jwtUtil;
     }
 
+    //authenticates our user allowing them to log in and generates a JWT token
     @PostMapping("/login")
     public String authenticateUser(@RequestBody Users users) {
         Authentication authentication = authenticationManager.authenticate(
@@ -47,6 +48,7 @@ public class AuthenticationTestController {
         return jwtUtil.generateToken(userDetails.getUsername());
     }
 
+    //adds a user to the database and checks to see if username is taken
     @PostMapping("/register")
     public String registerUser(@RequestBody Users users) {
         if (userRepository.existsByUsername(users.getUsername())) {
