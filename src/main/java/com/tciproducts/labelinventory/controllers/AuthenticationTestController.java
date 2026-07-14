@@ -11,57 +11,80 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class AuthenticationTestController {
 
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    public AuthenticationTestController(
-            AuthenticationManager authenticationManager,
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            JwtUtil jwtUtil
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
-
-    //authenticates our user allowing them to log in and generates a JWT token
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody Users users) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        users.getUsername(),
-                        users.getPassword()
-                )
-        );
+    public Map<String, String> login(Principal principal) {
 
-        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = principal.getName();
 
-        return jwtUtil.generateToken(userDetails.getUsername());
+        String token = jwtUtil.generateToken(username);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return response;
     }
+
+//
+//    private AuthenticationManager authenticationManager;
+//    private UserRepository userRepository;
+//    private PasswordEncoder passwordEncoder;
+//    private JwtUtil jwtUtil;
+//    private CustomUserDetailsService customUserDetailsService;
+//
+//    @Autowired
+//    public AuthenticationTestController(
+//            AuthenticationManager authenticationManager,
+//            UserRepository userRepository,
+//            PasswordEncoder passwordEncoder,
+//            JwtUtil jwtUtil
+//    ) {
+//        this.authenticationManager = authenticationManager;
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//        this.jwtUtil = jwtUtil;
+//    }
+
+//    //authenticates our user allowing them to log in and generates a JWT token
+//    @PostMapping("/login")
+//    public String authenticateUser(@RequestBody Users users) {
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        users.getUsername(),
+//                        users.getPassword()
+//                )
+//        );
+//
+//        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//        return jwtUtil.generateToken(userDetails.getUsername());
+//    }
 
     //adds a user to the database and checks to see if username is taken
-    @PostMapping("/register")
-    public String registerUser(@RequestBody Users users) {
-        if (userRepository.existsByUsername(users.getUsername())) {
-            return "User already exists";
-        }
-
-        final Users newUser = new Users(
-                users.getUsername(),
-                passwordEncoder.encode(users.getPassword())
-        );
-
-        userRepository.save(newUser);
-        return "User created successfully";
-    }
+//    @PostMapping("/register")
+//    public String registerUser(@RequestBody Users users) {
+//        if (userRepository.existsByUsername(users.getUsername())) {
+//            return "User already exists";
+//        }
+//
+//        final Users newUser = new Users(
+//                users.getUsername(),
+//                passwordEncoder.encode(users.getPassword()
+//                        )
+//        );
+//
+//        userRepository.save(newUser);
+//        return "User created successfully";
+//    }
 
 }

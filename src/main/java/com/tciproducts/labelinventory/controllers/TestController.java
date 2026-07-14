@@ -1,5 +1,6 @@
 package com.tciproducts.labelinventory.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,13 +14,20 @@ public class TestController {
         return "access for all";
     }
 
-    @GetMapping("public/hello")
+    @GetMapping("/public")
     public String publicEnd() {
         return "public data";
     }
 
-    @GetMapping ("private/hello")
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping ("/private")
     public String privateEnd() {
         return "private data";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping ("/admin")
+    public String privateAdmin() {
+        return "Admin data";
     }
 }

@@ -1,11 +1,11 @@
 package com.tciproducts.labelinventory.controllers;
 
 import com.tciproducts.labelinventory.models.Users;
-import com.tciproducts.labelinventory.services.CustomUserDetailsService;
+import com.tciproducts.labelinventory.models.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,15 +16,13 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public AdminController(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers() {
-        List<Users> usersList = customUserDetailsService.getAllUsers();
+        List<Users> usersList = userRepository.findAll();
 
         if(!usersList.isEmpty()) {
             return new ResponseEntity<>(usersList, HttpStatus.OK);

@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.Primary;
 
@@ -14,6 +16,8 @@ import org.springframework.context.annotation.Primary;
 @Table(name = "labels")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Labels extends AbstractEntity {
 
 //    @Size(min = 3, max = 5, message = "code needs to be between 3 and 5 digits")

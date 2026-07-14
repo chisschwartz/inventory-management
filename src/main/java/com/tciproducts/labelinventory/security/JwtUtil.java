@@ -3,8 +3,11 @@ package com.tciproducts.labelinventory.security;
 //import io.jsonwebtoken.Claims;
 //import io.jsonwebtoken.Jwts;
 //import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -15,22 +18,26 @@ import org.springframework.beans.factory.annotation.Value;
 //import java.util.*;
 //import java.util.stream.Collectors;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 public class JwtUtil {
+
+//    @Autowired
+//    private final JwtEncoder jwtEncoder;
+//
+//    public JwtUtil(JwtEncoder jwtEncoder) {
+//        this.jwtEncoder = jwtEncoder;
+//    }
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -49,9 +56,10 @@ public class JwtUtil {
     //generates the token so that our user can sign in and explore gated content
     @PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
+    //generate JWT Token for logged in user
     public String generateToken(String username) {
 
         Date issuedAtDay = new Date(System.currentTimeMillis());
@@ -61,30 +69,66 @@ public class JwtUtil {
                 .subject(username)
                 .issuedAt(issuedAtDay)
                 .expiration(expirationDate)
-                .signWith(key)
+                .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
 
-
-
-
-    //gets the actual user associated with the token
-    public String getUserFromToken(String token) {
-        return Jwts.parser().verifyWith(key).build()
+    //Extracts username from JWT token
+    public String extractUsername(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
     }
 
-    //makes sure the user and token are valid
-    public boolean validateJwtToken(String token) {
-        try {
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-            return true;
-        } catch (Exception e) {
-            log.error("JWT Validation Error: {}", e.getMessage());
-        }
-
-        return false;
+    public boolean validateToken(String token, String username) {
+        return extractUsername(token).equals(username);
     }
+
+//    public String generateToken(UserDetails userDetails) {
+//        List<String> roles = userDetails.getAuthorities()
+//                .stream().map(GrantedAuthority::getAuthority).toList();
+//
+//        Instant now = Instant.now();
+//
+//        JwtClaimsSet claims = JwtClaimsSet.builder()
+//                .issuer("chris")
+//                .issuedAt(now)
+//                .expiresAt(now.plus(Duration.ofMinutes(15)))
+//                .subject(userDetails.getUsername())
+//                .claim("roles", roles)
+//                .build();
+//
+//        JwsHeader header = JwsHeader.with(SignatureAlgorithm.RS256)
+//                .build();
+//
+//        return jwtEncoder.encode(
+//                JwtEncoderParameters.from(header, claims)
+//        ).getTokenValue();
+//    }
+
+
+
+
+//    //gets the actual user associated with the token
+//    public String getUserFromToken(String token) {
+//        return Jwts.parser().verifyWith(key).build()
+//                .parseSignedClaims(token)
+//                .getPayload()
+//                .getSubject();
+//    }
+//
+//    //makes sure the user and token are valid
+//    public boolean validateJwtToken(String token) {
+//        try {
+//            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+//            return true;
+//        } catch (Exception e) {
+//            log.error("JWT Validation Error: {}", e.getMessage());
+//        }
+//
+//        return false;
+//    }
 }
