@@ -3,13 +3,20 @@ package com.tciproducts.labelinventory.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Users extends AbstractEntity {
+@AllArgsConstructor
+public class Users extends AbstractEntity implements UserDetails {
     //basic implementation will need roles for editing perms
     //may want to restrict registration to only tci products email addresses
 
@@ -23,13 +30,14 @@ public class Users extends AbstractEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private AuthProvider authProvider;
+    //for potential integration of microsoft login
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private AuthProvider authProvider;
 
-    public enum AuthProvider {
-        LOCAL
-    }
+//    public enum AuthProvider {
+//        LOCAL
+//    }
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,12 +47,40 @@ public class Users extends AbstractEntity {
         USER, ADMIN
     }
 
-    public Users(String username, String email, String password, AuthProvider provider, Role role) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authProvider = provider;
-        this.role = role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 
 //    @ManyToMany(fetch = FetchType.EAGER)

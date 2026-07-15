@@ -1,9 +1,12 @@
 package com.tciproducts.labelinventory.controllers;
 
+import com.tciproducts.labelinventory.dtos.RegisterDto;
 import com.tciproducts.labelinventory.models.Users;
 import com.tciproducts.labelinventory.models.repositories.UserRepository;
 import com.tciproducts.labelinventory.security.JwtUtil;
+import com.tciproducts.labelinventory.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class AuthenticationTestController {
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -35,56 +41,9 @@ public class AuthenticationTestController {
         return response;
     }
 
-//
-//    private AuthenticationManager authenticationManager;
-//    private UserRepository userRepository;
-//    private PasswordEncoder passwordEncoder;
-//    private JwtUtil jwtUtil;
-//    private CustomUserDetailsService customUserDetailsService;
-//
-//    @Autowired
-//    public AuthenticationTestController(
-//            AuthenticationManager authenticationManager,
-//            UserRepository userRepository,
-//            PasswordEncoder passwordEncoder,
-//            JwtUtil jwtUtil
-//    ) {
-//        this.authenticationManager = authenticationManager;
-//        this.userRepository = userRepository;
-//        this.passwordEncoder = passwordEncoder;
-//        this.jwtUtil = jwtUtil;
-//    }
-
-//    //authenticates our user allowing them to log in and generates a JWT token
-//    @PostMapping("/login")
-//    public String authenticateUser(@RequestBody Users users) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        users.getUsername(),
-//                        users.getPassword()
-//                )
-//        );
-//
-//        final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//        return jwtUtil.generateToken(userDetails.getUsername());
-//    }
-
-    //adds a user to the database and checks to see if username is taken
-//    @PostMapping("/register")
-//    public String registerUser(@RequestBody Users users) {
-//        if (userRepository.existsByUsername(users.getUsername())) {
-//            return "User already exists";
-//        }
-//
-//        final Users newUser = new Users(
-//                users.getUsername(),
-//                passwordEncoder.encode(users.getPassword()
-//                        )
-//        );
-//
-//        userRepository.save(newUser);
-//        return "User created successfully";
-//    }
-
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDto request) {
+        String token = authService.register(request);
+        return ResponseEntity.ok(Map.of("token", token));
+    }
 }
