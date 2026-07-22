@@ -1,43 +1,17 @@
 package com.tciproducts.labelinventory.security;
 
-//import io.jsonwebtoken.Claims;
-//import io.jsonwebtoken.Jwts;
-//import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.stereotype.Component;
-//
-//import javax.crypto.SecretKey;
-//import java.nio.charset.StandardCharsets;
-//import java.util.*;
-//import java.util.stream.Collectors;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.*;
 
 @Component
-@Slf4j
 public class JwtUtil {
-
-//    @Autowired
-//    private final JwtEncoder jwtEncoder;
-//
-//    public JwtUtil(JwtEncoder jwtEncoder) {
-//        this.jwtEncoder = jwtEncoder;
-//    }
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -60,7 +34,7 @@ public class JwtUtil {
     }
 
     //generate JWT Token for logged in user
-    public String generateToken(String username) {
+    protected String generateToken(String username) {
 
         Date issuedAtDay = new Date(System.currentTimeMillis());
         Date expirationDate = new Date(System.currentTimeMillis() + jwtExpiration);
@@ -74,7 +48,7 @@ public class JwtUtil {
     }
 
     //Extracts username from JWT token
-    public String extractUsername(String token) {
+    protected String extractUsername(String token) {
         return Jwts.parser()
                 .verifyWith(key)
                 .build()

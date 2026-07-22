@@ -1,10 +1,9 @@
 package com.tciproducts.labelinventory.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+//transfers all of our data for later use
+@Data
 public class RegisterDto {
     private String username;
     private String email;

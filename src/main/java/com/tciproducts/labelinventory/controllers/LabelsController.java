@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,16 +36,19 @@ public class LabelsController {
     }
 
     //only admins should be able to add, update and delete these labels
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Labels saveLabel(@RequestBody Labels label) {
         return labelsService.saveLabels(label);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public Labels updateLabelById(@PathVariable Integer id, @RequestBody Labels updatedLabel) {
         return labelsService.updateLabelById(id, updatedLabel);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteLabelById(@PathVariable Integer id) {
         labelsService.deleteLabelById(id);

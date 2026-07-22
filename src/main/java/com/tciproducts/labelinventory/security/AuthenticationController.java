@@ -1,17 +1,8 @@
-package com.tciproducts.labelinventory.controllers;
+package com.tciproducts.labelinventory.security;
 
 import com.tciproducts.labelinventory.dtos.RegisterDto;
-import com.tciproducts.labelinventory.models.Users;
-import com.tciproducts.labelinventory.models.repositories.UserRepository;
-import com.tciproducts.labelinventory.security.JwtUtil;
-import com.tciproducts.labelinventory.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class AuthenticationTestController {
+public class AuthenticationController {
 
     @Autowired
     private AuthService authService;
@@ -28,6 +19,7 @@ public class AuthenticationTestController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    //allows users to login and generates an access token
     @PostMapping("/login")
     public Map<String, String> login(Principal principal) {
 
@@ -41,9 +33,13 @@ public class AuthenticationTestController {
         return response;
     }
 
+    //register controller lets us add users to the database
+    //might restrict to admin only so that only admins can create new users, could help keep it secure?
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDto request) {
         String token = authService.register(request);
         return ResponseEntity.ok(Map.of("token", token));
     }
+
+    //refresh token and logout is probably needed
 }

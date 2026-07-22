@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Users extends AbstractEntity implements UserDetails {
-    //basic implementation will need roles for editing perms
     //may want to restrict registration to only tci products email addresses
 
     @Column(nullable = false, unique = true)
@@ -27,10 +26,11 @@ public class Users extends AbstractEntity implements UserDetails {
     private String email;
 
     @Column(nullable = false)
+    //this property makes it so that passwords do not show when retrieving user data
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    //for potential integration of microsoft login
+    //for potential integration of Microsoft login
 //    @Enumerated(EnumType.STRING)
 //    @Column(nullable = false)
 //    private AuthProvider authProvider;
@@ -82,15 +82,4 @@ public class Users extends AbstractEntity implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "users_role",
-//    joinColumns = @JoinColumn(name = "users_id"),
-//    inverseJoinColumns = @JoinColumn(name = "roles_id")
-//    )
-//    private Set<Roles> roles = new HashSet<>();
-//
-//    public void addRole(Roles role) {
-//        this.roles.add(role);
-//    }
 }

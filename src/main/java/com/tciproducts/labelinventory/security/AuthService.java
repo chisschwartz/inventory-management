@@ -1,14 +1,11 @@
-package com.tciproducts.labelinventory.services;
+package com.tciproducts.labelinventory.security;
 
 import com.tciproducts.labelinventory.dtos.RegisterDto;
 import com.tciproducts.labelinventory.models.Users;
 import com.tciproducts.labelinventory.models.repositories.UserRepository;
-import com.tciproducts.labelinventory.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class AuthService {
@@ -22,6 +19,7 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    //carries out the authentication and registration of a new user
     public String register(RegisterDto request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
