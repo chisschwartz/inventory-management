@@ -3,9 +3,11 @@ import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { EditButtonRenderer } from "./EditButtonRenderer";
+import InventoryHeader from "./InventoryHeader";
+import { Link } from "react-router-dom";
 
 //shows all of our labels in stock and their type
-const IndividualItems = ({ token }) => {
+const IndividualItems = ({ token, username, onLogout }) => {
     const [rowData, setRowData] = useState([]);
     const fetchItems = useCallback(async () => {
         try {
@@ -21,9 +23,9 @@ const IndividualItems = ({ token }) => {
     }, [token]);
 
     const colDefs = useMemo(() => [
-        { field: "labelCode"},
-        { field: "size"},
-        { field: "quantity"},
+        { field: "labelCode", headerName: "Label code" },
+        { field: "size", headerName: "Size" },
+        { field: "quantity", headerName: "Quantity" },
         {
             headerName: "Update Quantity",
             cellRenderer: EditButtonRenderer,
@@ -37,6 +39,7 @@ const IndividualItems = ({ token }) => {
     const defaultColDef = useMemo(() => {
         return {
         flex: 1,
+        minWidth: 130,
         filter: true,
         };
     }, []);
@@ -62,8 +65,19 @@ const IndividualItems = ({ token }) => {
     }, [token]);
 
     return (
-        <div>
-                <AgGridProvider modules={[AllCommunityModule]}>
+        <div className="inventory-app">
+            <InventoryHeader username={username} onLogout={onLogout} />
+            <main className="inventory-main">
+                <div className="page-heading">
+                    <div>
+                        <Link className="back-link" to="/labels">← Back to inventory</Link>
+                        <p className="eyebrow">STOCK DETAILS</p>
+                        <h1>All stock</h1>
+                        <p className="page-description">Review sizes and update quantities.</p>
+                    </div>
+                </div>
+                <section className="inventory-panel" aria-label="Stock by label and size">
+                    <AgGridProvider modules={[AllCommunityModule]}>
                     <div className="ag-theme-alpine inventory-grid">
                         <AgGridReact
                             rowData={rowData}
@@ -74,6 +88,9 @@ const IndividualItems = ({ token }) => {
                         />
                     </div>
                 </AgGridProvider>
+                </section>
+                <footer className="page-footer">Inventory is visible to authorized users only.</footer>
+            </main>
         </div>
     );
 };

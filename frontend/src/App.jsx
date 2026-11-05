@@ -41,9 +41,9 @@ function App() {
           element={session.token ? <Outlet /> : <Navigate to="/login" replace />}
         >
           <Route path="/" element={<Navigate to="/labels" replace />} />
-          <Route path="/labels" element={<InventoryListAG token={session.token} username={session.username} onLogout={handleLogout} onUnauthorized={handleLogout} />} />
-          <Route path="/labels/size" element={<IndividualItems token={session.token} />} />
-          <Route path="/labels/size/code/:labelCode" element={<FilteredItems token={session.token} />} />
+          <Route path="/labels" element={<InventoryListAG token={session.token} username={session.username} onLogout={handleLogout} />} />
+          <Route path="/labels/size" element={<IndividualItems token={session.token} username={session.username} onLogout={handleLogout} />} />
+          <Route path="/labels/size/code/:labelCode" element={<FilteredItems token={session.token} username={session.username} onLogout={handleLogout} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

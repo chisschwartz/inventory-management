@@ -3,12 +3,14 @@ import { useState } from "react";
 export function DeleteButtonRenderer (params) {
     const [deleteLabel, setDeleteLabel] = useState(false);
     const [confirmation, setConfirmation] = useState(false);
+    const [error, setError] = useState("");
     //works for deleting and having multiple api endpoints but 
     // const urls = [`http://localhost:5176/api/labels/size/${params.data.id}`, `http://localhost:5176/api/labels/${params.data.id}`]
 
 
     //a small double check to prevent accidental clicks
     const handleClick = () => {
+        setError("");
         setConfirmation(true);
     };
 
@@ -27,11 +29,8 @@ export function DeleteButtonRenderer (params) {
                 }
             );
 
-                if (response.status === 401) {
-                    params.onUnauthorized();
-                }
-                if (!response.ok) {
-                throw new Error(`Status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`Could not delete label (status ${response.status}).`);
             }
 
             setConfirmation(false);
@@ -41,7 +40,8 @@ export function DeleteButtonRenderer (params) {
             
         } catch (error) {
             console.error('Error deleting item:', error);
-            alert('Failed to delete item');
+            setConfirmation(false);
+            setError(error.message || "Could not delete label. Please try again.");
         } finally {
             setDeleteLabel(false);
         }
@@ -56,43 +56,21 @@ export function DeleteButtonRenderer (params) {
     //need to make an actual css page to make this prettier
     if (confirmation) {
         return (
-            <div style={{
-                display: 'flex',
-                gap: '5px',
-                alignItems: 'center',
-                backgroundColor: '#fff3cd',
-                padding: '8px',
-                borderRadius: '3px'
-            }}>
-                <span style={{fontSize: '12px', fontWeight: 'bold'}}>Confirm Permanent Deletion?</span>
+            <div className="grid-action-group grid-delete-confirm">
+                <span>Delete this label?</span>
                 <button
+                className="grid-action-button grid-action-delete"
                 onClick={handleDelete}
                 disabled={deleteLabel}
-                style={{
-                    padding: '4px 8px',
-                    backgroundColor: '#ff3c00',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '3px',
-                    //allows for no multiple clicks while deletion is processed
-                    cursor: deleteLabel ? 'not-allowed' : 'pointer',
-                    fontSize: '12px'
-                }}
+                type="button"
                 >
                     {deleteLabel ? 'Deleting...' : 'Delete'}
                 </button>
                 <button
+                className="grid-action-button grid-action-cancel"
                 onClick={handleCancel}
                 disabled={deleteLabel}
-                style={{
-                    padding: '4px 8px',
-                    backgroundColor: '#706c6a',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '3px',
-                    cursor: deleteLabel ? 'not-allowed' : 'pointer',
-                    fontSize: '12px'
-                }}
+                type="button"
                 >
                     Cancel
                 </button>
@@ -101,19 +79,15 @@ export function DeleteButtonRenderer (params) {
     }
 
        return (
-        <button
-            onClick={handleClick}
-            style={{
-                padding: '6px 12px',
-                backgroundColor: '#ff3c00',
-                color: 'white',
-                border: 'none',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                fontSize: '12px'
-            }}
-        >
-            Delete
-        </button>
+        <div className="grid-action-feedback">
+            <button
+                className="grid-action-button grid-action-delete"
+                onClick={handleClick}
+                type="button"
+            >
+                Delete
+            </button>
+            {error && <span className="grid-action-error" role="alert">{error}</span>}
+        </div>
     );
 };

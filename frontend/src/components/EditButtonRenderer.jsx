@@ -4,15 +4,19 @@ export function EditButtonRenderer(params) {
     const [isEditing, setIsEditing] = useState(false);
     const [editData, setEditData] = useState(params.data);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     //checks to see if an edit is occuring
     const handleEdit = () => {
+        setError("");
+        setEditData(params.data);
         setIsEditing(true);
     };
 
     //cancels an edit
     const handleCancel = () => {
         setIsEditing(false);
+        setError("");
         setEditData(params.data);
     };
 
@@ -35,7 +39,7 @@ export function EditButtonRenderer(params) {
             );
 
             if (!response.ok) {
-                throw new Error(`Error! Status: ${response.status}`);
+                throw new Error(`Could not update quantity (status ${response.status}).`);
             }
 
             setIsEditing(false);
@@ -45,7 +49,9 @@ export function EditButtonRenderer(params) {
 
         } catch (error) {
             console.error('Error updating item:', error);
-            alert('Failed to update item');
+            setEditData(params.data);
+            setIsEditing(false);
+            setError(error.message || "Could not update quantity. Please try again.");
 
         } finally {
             setLoading(false);
@@ -64,40 +70,26 @@ export function EditButtonRenderer(params) {
     //need css
     if (isEditing) {
         return (
-            <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+            <div className="grid-action-group">
                 <input
+                    aria-label={`Quantity for ${params.data.labelCode}`}
                     type="text"
                     value={editData.quantity || ''}
                     onChange={(e) => handleInputChange('quantity', e.target.value)}
-                    style={{ width: '60px', padding: '4px' }}
                 />
                 <button
+                    className="grid-action-button grid-action-save"
                     onClick={handleSave}
                     disabled={loading}
-                    style={{
-                        padding: '4px 8px',
-                        backgroundColor: '#28a745',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '3px',
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                        fontSize: '12px'
-                    }}
+                    type="button"
                 >
                     {loading ? 'Saving...' : 'Save'}
                 </button>
                 <button
+                    className="grid-action-button grid-action-cancel"
                     onClick={handleCancel}
                     disabled={loading}
-                    style={{
-                        padding: '4px 8px',
-                        backgroundColor: '#dc3545',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '3px',
-                        cursor: loading ? 'not-allowed' : 'pointer',
-                        fontSize: '12px'
-                    }}
+                    type="button"
                 >
                     Cancel
                 </button>
@@ -107,19 +99,15 @@ export function EditButtonRenderer(params) {
 
     //sets isEditing to true to and allows us to apply and save edits
     return (
-        <button
-            onClick={handleEdit}
-            style={{
-                padding: '6px 12px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                fontSize: '12px'
-            }}
-        >
-            Update
-        </button>
+        <div className="grid-action-feedback">
+            <button
+                className="grid-action-button grid-action-update"
+                onClick={handleEdit}
+                type="button"
+            >
+                Update
+            </button>
+            {error && <span className="grid-action-error" role="alert">{error}</span>}
+        </div>
     );
 }

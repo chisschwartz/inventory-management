@@ -5,8 +5,9 @@ import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { InventoryLinkRenderer } from "./InventoryLinkRenderer";
 import { DeleteButtonRenderer } from "./DeleteButtonRenderer";
+import InventoryHeader from "./InventoryHeader";
 
-const InventoryListAG = ({ token, username, onLogout, onUnauthorized }) => {
+const InventoryListAG = ({ token, username, onLogout }) => {
     const [isCreateLabel, setCreateLabel] = useState(false);
     const [rowData, setRowData] = useState([]);
     const [error, setError] = useState("");
@@ -21,24 +22,23 @@ const InventoryListAG = ({ token, username, onLogout, onUnauthorized }) => {
             headerName: "Label Code",
             cellRenderer: InventoryLinkRenderer,
         },
-        { field: "labelAlias"},
-        { field: "company"},
+        { field: "labelAlias", headerName: "Label name" },
+        { field: "company", headerName: "Company" },
                 {
-                    //should probably only render this for admins. Might just only render buttons for logged in users
-            headerName: "Delete",
+            headerName: "Actions",
             cellRenderer: DeleteButtonRenderer,
             cellRendererParams: {
                 onDeleteComplete: refreshLabels,
                 token,
-                onUnauthorized
             },
         }
-    ], [refreshLabels, token, onUnauthorized]);
+    ], [refreshLabels, token]);
 
     //enables our filter and enables flex on our columns
     const defaultColDef = useMemo(() => {
         return {
         flex: 1,
+        minWidth: 130,
         filter: true,
         };
     }, []);
@@ -53,10 +53,6 @@ const InventoryListAG = ({ token, username, onLogout, onUnauthorized }) => {
                     signal: controller.signal
                 });
 
-                if (response.status === 401) {
-                    onUnauthorized();
-                    return;
-                }
                 if (!response.ok) {
                     throw new Error(`Inventory could not be loaded (status ${response.status}).`);
                 }
@@ -72,20 +68,11 @@ const InventoryListAG = ({ token, username, onLogout, onUnauthorized }) => {
 
         loadLabels();
         return () => controller.abort();
-    }, [token, onUnauthorized, reloadCount]);
+    }, [token, reloadCount]);
 
     return (
         <div className="inventory-app">
-            <header className="topbar">
-                <a className="brand" href="/labels" aria-label="Stockroom inventory">
-                    <span className="brand-mark" aria-hidden="true">S</span>
-                    <span>Stockroom</span>
-                </a>
-                <div className="account">
-                    <span className="account-name">Signed in as <strong>{username}</strong></span>
-                    <button className="text-button" onClick={onLogout} type="button">Sign out</button>
-                </div>
-            </header>
+            <InventoryHeader username={username} onLogout={onLogout} />
             <main className="inventory-main">
                 <div className="page-heading">
                     <div>
@@ -97,14 +84,13 @@ const InventoryListAG = ({ token, username, onLogout, onUnauthorized }) => {
                         {error ? "Unavailable" : `${rowData.length} ${rowData.length === 1 ? "item" : "items"}`}
                     </span>
                 </div>
-            {/* creates a button that lets us add a label to the database, will need to move eventually */}
             <section className="inventory-panel" aria-label="Inventory list">
               <div className="table-toolbar">
                 {!isCreateLabel ? <button className="primary-button" onClick={() => {
                     setCreateLabel(true);
-                }}>Create label</button> : ""}
+                }}>Create label</button> : <button className="text-button" onClick={() => setCreateLabel(false)} type="button">Cancel</button>}
               </div>
-            {isCreateLabel ? <CreateLabel token={token} onUnauthorized={onUnauthorized} onLabelCreated={refreshLabels} setCreateLabel={setCreateLabel} /> :
+            {isCreateLabel ? <CreateLabel token={token} onLabelCreated={refreshLabels} setCreateLabel={setCreateLabel} /> :
                 error ? <div className="empty-state" role="alert">
                     <h2>Inventory unavailable</h2>
                     <p>{error}</p>
