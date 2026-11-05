@@ -23,10 +23,13 @@ export function EditButtonRenderer(params) {
         try {
             const response = await fetch(
                 //due to certain params I'd like this to be only useful for the individual inventory components
-                `http://localhost:5176/api/labels/size/${params.data.id}`,
+                `/api/labels/size/${params.data.id}`,
                 {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${params.token}`
+                    },
                     body: JSON.stringify(editData)
                 }
             );

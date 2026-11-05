@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AgGridReact, AgGridProvider } from "ag-grid-react";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -6,25 +6,23 @@ import { useParams } from "react-router-dom";
 import { EditButtonRenderer } from "./EditButtonRenderer";
 
 //shows us the individual items for each label code
-const FilteredItems = () => {
-    
-    const fetchItems = async () => {
+const FilteredItems = ({ token }) => {
+    const { labelCode } = useParams();
+    const [rowData, setRowData] = useState([]);
+    const fetchItems = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:5176/api/labels/size/code/${labelCode}`, {
-                method: 'GET'
-            })
-
-            .then(response => response.json())
-            .then(rowData => setRowData(rowData))
+            const response = await fetch(`/api/labels/size/code/${labelCode}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error(`Unable to load stock (status ${response.status}).`);
+            setRowData(await response.json());
 
         } catch(error) {
             console.error("Error fetching lables: ", error);
         }
-    };
+    }, [labelCode, token]);
     
-    const { labelCode } = useParams();
-    const [rowData, setRowData] = useState([]);
-    const [colDefs, setColDefs] = useState ([
+    const colDefs = useMemo(() => [
         { field: "labelCode"},
         { field: "size"},
         { field: "quantity"},
@@ -32,10 +30,11 @@ const FilteredItems = () => {
             headerName: "Update Quantity",
             cellRenderer: EditButtonRenderer,
             cellRendererParams: {
-                onEditComplete: fetchItems
+                onEditComplete: fetchItems,
+                token
             },
         }
-    ]);
+    ], [fetchItems, token]);
 
     const defaultColDef = useMemo(() => {
         return {
@@ -45,13 +44,29 @@ const FilteredItems = () => {
     }, []);
 
     useEffect(() => {
-        fetchItems();
-    }, []);
+        const controller = new AbortController();
+        const loadItems = async () => {
+            try {
+                const response = await fetch(`/api/labels/size/code/${labelCode}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    signal: controller.signal
+                });
+                if (!response.ok) throw new Error(`Unable to load stock (status ${response.status}).`);
+                setRowData(await response.json());
+            } catch(error) {
+                if (error.name !== "AbortError") {
+                    console.error("Error fetching labels: ", error);
+                }
+            }
+        };
+        loadItems();
+        return () => controller.abort();
+    }, [labelCode, token]);
 
     return (
         <div>
                 <AgGridProvider modules={[AllCommunityModule]}>
-                    <div className="ag-theme-alpine" style={{ width: "1500px", height: "500px"}}>
+                    <div className="ag-theme-alpine inventory-grid">
                         <AgGridReact
                             rowData={rowData}
                             columnDefs={colDefs}

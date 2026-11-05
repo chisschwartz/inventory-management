@@ -109,3 +109,8 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 } */
+html {
+  min-width: 320px;
+  background: #f7f8f6;
+  scroll-behavior: smooth;
+}

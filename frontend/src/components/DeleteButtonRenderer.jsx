@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useState } from "react";
 
-export function DeleteButtonRenderer (params, url) {
+export function DeleteButtonRenderer (params) {
     const [deleteLabel, setDeleteLabel] = useState(false);
     const [confirmation, setConfirmation] = useState(false);
     //works for deleting and having multiple api endpoints but 
@@ -19,12 +18,18 @@ export function DeleteButtonRenderer (params, url) {
         
         try {
             const response = await fetch(
-                `http://localhost:5176/api/labels/${params.data.id}`, {
+                `/api/labels/${params.data.id}`, {
                     method: 'DELETE',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${params.token}`
+                    }
                 }
             );
 
+                if (response.status === 401) {
+                    params.onUnauthorized();
+                }
                 if (!response.ok) {
                 throw new Error(`Status: ${response.status}`);
             }

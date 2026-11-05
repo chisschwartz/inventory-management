@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
+import {useState} from "react";
 
 //provides us functionality to create items in our database
-const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
+const CreateLabel = ({onLabelCreated, setCreateLabel, token, onUnauthorized}) => {
 
     const [labelCode, setLabelCode] = useState("");
     const [labelAlias, setLabelAlias] = useState("");
@@ -17,13 +17,18 @@ const CreateLabel = ({onLabelCreated, setCreateLabel}) => {
         };
 
         try {
-            const response = await fetch("http://localhost:5176/api/labels", {
+            const response = await fetch("/api/labels", {
                 method: 'POST',
-                credentials: 'include',
-                headers: {'Content-type': 'application/json'},
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify(labelData)
             });
 
+            if (response.status === 401) {
+                onUnauthorized();
+            }
             if(!response.ok) {
                 throw new Error(`Error! Status: ${response.status}`);
             }
