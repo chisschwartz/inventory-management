@@ -50,10 +50,10 @@ public class SecurityConfig {
          http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/labels/**", "/api/login/**", "/api/register/**", "/api/test/welcome/**").permitAll()
-                                .requestMatchers("/users/user/**", "/api/test/public/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.POST, "/api/login").authenticated()
+                                .requestMatchers("/labels/**", "/users/user/**", "/api/test/public/**").hasRole("USER")
+                                .requestMatchers("/api/login/**", "/api/register/**", "/api/test/welcome/**").permitAll()
                                 .requestMatchers("/api/test/private/**", "/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/login").authenticated()
                         .anyRequest().authenticated()
                 )
                  .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
