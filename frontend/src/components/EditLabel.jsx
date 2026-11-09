@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-
+//may use this in the final for admins to edit but unsure.
 const EditLabel = ({label, onUpdate, onCancel}) => {
     const [company, setCompany] = useState(label.company);
     const [labelAlias, setLabelAlias] = useState(label.labelAlias);

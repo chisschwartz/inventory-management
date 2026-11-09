@@ -1,9 +1,12 @@
 package com.tciproducts.labelinventory.services;
 
 import com.tciproducts.labelinventory.models.Sizing;
+import com.tciproducts.labelinventory.models.repositories.LabelsRepository;
 import com.tciproducts.labelinventory.models.repositories.SizingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,9 @@ public class SizingService {
     @Autowired
     SizingRepository sizingRepository;
 
+    @Autowired
+    private LabelsRepository labelsRepository;
+
     public Iterable<Sizing> getAllSizes() {
         return sizingRepository.findAll();
     }
@@ -22,9 +28,24 @@ public class SizingService {
         return sizingRepository.findByLabelCode(labelCode);
     }
 
-    public Sizing saveSizing(Sizing sizing) {
+    public Sizing saveSizing(Integer labelCode, String size, Integer quantity) {
+        if (labelCode == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label code is required.");
+        }
+        if (!labelsRepository.existsByLabelCode(labelCode)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Label not found.");
+        }
+
+        Sizing sizing = new Sizing();
+        sizing.setLabelCode(labelCode);
+        sizing.setSize(size.trim());
+        sizing.setQuantity(quantity);
         return sizingRepository.save(sizing);
     }
+
+//    public Optional<Sizing> getSizeById(Integer id) {
+//        return sizingRepository.findById(id);
+//    }
 
     public void deleteSizeById(Integer id) {
         Optional<Sizing> results = sizingRepository.findById(id);

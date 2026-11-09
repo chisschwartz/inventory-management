@@ -1,7 +1,11 @@
 
+import { Link } from "react-router-dom";
 
+//renders the label code so that when you click one it takes you to the stock we have of it.
 export function InventoryLinkRenderer(params) {
-    const link = `<a "href=http://localhost:5176/labels/size/${params.value}"
-    target="_blank">${new URL (`http://localhost:5176/labels/size/${params.value}`)}</a>`;
-    return link;
+    return (
+        <Link to={`/labels/size/code/${params.value}`}>
+            {params.value}
+        </Link>
+    );
 }

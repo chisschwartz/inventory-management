@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LabelsRepository extends JpaRepository<Labels, Integer> {
+    boolean existsByLabelCode(Integer labelCode);
 }
