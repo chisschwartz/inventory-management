@@ -4,8 +4,6 @@ import com.tciproducts.labelinventory.dtos.AddSizingRequest;
 import com.tciproducts.labelinventory.models.Sizing;
 import com.tciproducts.labelinventory.services.SizingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,26 +27,14 @@ public class SizingController {
         return sizingService.getSizeByLabelCode(labelCode);
     }
 
-    @PreAuthorize("hasRole('USER')")
-    @PostMapping("/code/{labelCode}")
-    public ResponseEntity<Sizing> addSizing(
-            @PathVariable Integer labelCode,
-            @RequestBody @jakarta.validation.Valid AddSizingRequest request) {
-        Sizing sizing = sizingService.addSizing(labelCode, request.size(), request.quantity());
-        return ResponseEntity.status(HttpStatus.CREATED).body(sizing);
-    }
-
-//    @GetMapping("/id/{id}")
-//    public Optional<Sizing> getSizeById(@PathVariable Integer id) {
-//        return sizingService.getSizeById(id);
-//    }
-
-
     //users should be able to add inventory items and edit inventory
     @PreAuthorize("hasRole('USER')")
-    @PostMapping()
-    public Sizing saveSizing(@RequestBody Sizing sizing) {
-        return sizingService.saveSizing(sizing);
+    @PostMapping({"", "/code/{labelCode}"})
+    public Sizing saveSizing(
+            @PathVariable(required = false) Integer labelCode,
+            @RequestBody @jakarta.validation.Valid AddSizingRequest request) {
+        Integer sizingLabelCode = labelCode != null ? labelCode : request.labelCode();
+        return sizingService.saveSizing(sizingLabelCode, request.size(), request.quantity());
     }
 
     @PreAuthorize("hasRole('USER')")

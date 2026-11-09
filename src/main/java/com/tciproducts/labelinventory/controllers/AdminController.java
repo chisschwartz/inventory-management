@@ -24,6 +24,7 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //retrieves all of our users
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all-users")
     public List<UserSummary> getAllUsers() {
@@ -32,6 +33,7 @@ public class AdminController {
                 .toList();
     }
 
+    //creates a new user only if current user is an admin
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/all-users")
     public ResponseEntity<UserSummary> createUser(@RequestBody @jakarta.validation.Valid AdminUserRequest request) {
@@ -51,10 +53,12 @@ public class AdminController {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(request.role());
 
+        //This is a sink but it is protected by layers of encryption and admin access that protect it
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserSummary.from(userRepository.save(user)));
     }
 
+    //allows admins to delete users and admins
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/all-users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id, Authentication authentication) {

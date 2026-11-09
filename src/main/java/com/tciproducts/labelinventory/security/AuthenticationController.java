@@ -42,6 +42,4 @@ public class AuthenticationController {
         String token = authService.register(request);
         return ResponseEntity.ok(Map.of("token", token));
     }
-
-    //refresh token and logout is probably needed
 }

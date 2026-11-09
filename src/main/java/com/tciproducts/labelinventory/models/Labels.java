@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Primary;
 @AllArgsConstructor
 public class Labels extends AbstractEntity {
 
-//    @Size(min = 3, max = 5, message = "code needs to be between 3 and 5 digits")
     private Integer labelCode;
 
     private String labelAlias;

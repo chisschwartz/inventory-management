@@ -22,9 +22,6 @@ public class JwtUtil {
     @Value("${jwt.refreshexpiration}")
     private Long jwtRefreshExpiration;
 
-//    private final long ACCESS_TOKEN_EXPIRY = 900000; // 15 minutes
-//    private final long REFRESH_TOKEN_EXPIRY = 604800000; // 7 days
-
     private SecretKey key;
 
     //generates the token so that our user can sign in and explore gated content
@@ -60,49 +57,4 @@ public class JwtUtil {
     public boolean validateToken(String token, String username) {
         return extractUsername(token).equals(username);
     }
-
-//    public String generateToken(UserDetails userDetails) {
-//        List<String> roles = userDetails.getAuthorities()
-//                .stream().map(GrantedAuthority::getAuthority).toList();
-//
-//        Instant now = Instant.now();
-//
-//        JwtClaimsSet claims = JwtClaimsSet.builder()
-//                .issuer("chris")
-//                .issuedAt(now)
-//                .expiresAt(now.plus(Duration.ofMinutes(15)))
-//                .subject(userDetails.getUsername())
-//                .claim("roles", roles)
-//                .build();
-//
-//        JwsHeader header = JwsHeader.with(SignatureAlgorithm.RS256)
-//                .build();
-//
-//        return jwtEncoder.encode(
-//                JwtEncoderParameters.from(header, claims)
-//        ).getTokenValue();
-//    }
-
-
-
-
-//    //gets the actual user associated with the token
-//    public String getUserFromToken(String token) {
-//        return Jwts.parser().verifyWith(key).build()
-//                .parseSignedClaims(token)
-//                .getPayload()
-//                .getSubject();
-//    }
-//
-//    //makes sure the user and token are valid
-//    public boolean validateJwtToken(String token) {
-//        try {
-//            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-//            return true;
-//        } catch (Exception e) {
-//            log.error("JWT Validation Error: {}", e.getMessage());
-//        }
-//
-//        return false;
-//    }
 }

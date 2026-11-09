@@ -49,14 +49,12 @@ function LoginPage({ onLogin }) {
   return (
     <main className="login-page">
       <section className="login-card" aria-labelledby="login-title">
-        <a className="brand" href="/" aria-label="Stockroom home">
-          <span className="brand-mark" aria-hidden="true">S</span>
-          <span>Stockroom</span>
+        <a className="brand" href="/" aria-label="Label Room Inventory">
+          Label Room Inventory
         </a>
         <div className="login-intro">
-          <p className="eyebrow">INVENTORY MANAGEMENT</p>
           <h1 id="login-title">Welcome back</h1>
-          <p>Sign in to view your inventory.</p>
+          <p>Please sign in.</p>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>

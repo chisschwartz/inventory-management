@@ -28,11 +28,10 @@ public class SizingService {
         return sizingRepository.findByLabelCode(labelCode);
     }
 
-    public Sizing saveSizing(Sizing sizing) {
-        return sizingRepository.save(sizing);
-    }
-
-    public Sizing addSizing(Integer labelCode, String size, Integer quantity) {
+    public Sizing saveSizing(Integer labelCode, String size, Integer quantity) {
+        if (labelCode == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label code is required.");
+        }
         if (!labelsRepository.existsByLabelCode(labelCode)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Label not found.");
         }

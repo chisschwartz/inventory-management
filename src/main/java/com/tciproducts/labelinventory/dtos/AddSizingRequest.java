@@ -6,6 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 public record AddSizingRequest(
+        Integer labelCode,
         @NotBlank @Size(max = 255) String size,
         @NotNull @PositiveOrZero Integer quantity
 ) {
