@@ -3,9 +3,9 @@ package com.tciproducts.labelinventory.security;
 import com.tciproducts.labelinventory.dtos.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     //allows users to login and generates an access token
     @PostMapping("/login")
-    public Map<String, String> login(Principal principal) {
+    public Map<String, String> login(Authentication principal) {
 
         String username = principal.getName();
 
@@ -29,6 +29,8 @@ public class AuthenticationController {
 
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
+        response.put("isAdmin", Boolean.toString(principal.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))));
 
         return response;
     }

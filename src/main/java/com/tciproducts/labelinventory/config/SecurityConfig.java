@@ -1,6 +1,7 @@
 package com.tciproducts.labelinventory.config;
 
 import com.tciproducts.labelinventory.security.AuthTokenFilter;
+import com.tciproducts.labelinventory.models.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,7 +29,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+    public UserDetailsService userDetailsService(PasswordEncoder encoder, UserRepository userRepository) {
         UserDetails admin = User.builder()
                 .username("Chris")
                 .password(encoder.encode("admin"))
@@ -41,7 +42,10 @@ public class SecurityConfig {
                 .roles("USER")
                 .build();
 
-        return new InMemoryUserDetailsManager(admin, user);
+        UserDetailsService fallbackUsers = new InMemoryUserDetailsManager(admin, user);
+        return username -> userRepository.findByUsername(username)
+                .<UserDetails>map(databaseUser -> databaseUser)
+                .orElseGet(() -> fallbackUsers.loadUserByUsername(username));
     }
 
     //Our security chain that filters requests and only lets admins or users access certain urls
@@ -50,9 +54,10 @@ public class SecurityConfig {
          http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers(HttpMethod.POST, "/api/login").authenticated()
-                                .requestMatchers("/labels/**", "/users/user/**", "/api/test/public/**").hasRole("USER")
-                                .requestMatchers("/api/login/**", "/api/register/**", "/api/test/welcome/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/login").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/register").hasRole("ADMIN")
+                        .requestMatchers("/labels/**", "/users/user/**", "/api/test/public/**").hasRole("USER")
+                        .requestMatchers("/api/login/**", "/api/test/welcome/**").permitAll()
                                 .requestMatchers("/api/test/private/**", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
