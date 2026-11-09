@@ -7,7 +7,7 @@ import { InventoryLinkRenderer } from "./InventoryLinkRenderer";
 import { DeleteButtonRenderer } from "./DeleteButtonRenderer";
 import InventoryHeader from "./InventoryHeader";
 
-const InventoryListAG = ({ token, username, onLogout }) => {
+const InventoryListAG = ({ token, username, isAdmin, onLogout }) => {
     const [isCreateLabel, setCreateLabel] = useState(false);
     const [rowData, setRowData] = useState([]);
     const [error, setError] = useState("");
@@ -72,7 +72,7 @@ const InventoryListAG = ({ token, username, onLogout }) => {
 
     return (
         <div className="inventory-app">
-            <InventoryHeader username={username} onLogout={onLogout} />
+            <InventoryHeader username={username} isAdmin={isAdmin} onLogout={onLogout} />
             <main className="inventory-main">
                 <div className="page-heading">
                     <div>

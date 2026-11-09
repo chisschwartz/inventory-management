@@ -420,7 +420,9 @@ p {
 }
 
 .text-button {
+  display: inline-flex;
   min-height: 36px;
+  align-items: center;
   padding: 0 10px;
   border: 0;
   border-radius: 6px;
@@ -429,6 +431,7 @@ p {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .text-button:hover {
@@ -797,6 +800,178 @@ td {
   font-size: 11px;
 }
 
+.admin-main {
+  padding-bottom: 24px;
+}
+
+.admin-create-panel {
+  overflow: hidden;
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(23 35 31 / 3%);
+}
+
+.admin-section-heading,
+.admin-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+.admin-section-heading {
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-section-heading h2,
+.admin-list-heading h2 {
+  margin: 0 0 5px;
+  color: #34413a;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.admin-section-heading p,
+.admin-list-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.admin-user-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  align-items: end;
+  gap: 12px;
+  padding: 18px 20px;
+}
+
+.admin-user-form .form-field {
+  display: grid;
+  gap: 7px;
+}
+
+.admin-user-form label {
+  color: #34413a;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.admin-user-form input,
+.admin-user-form select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid #dfe5df;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.admin-user-form input:focus,
+.admin-user-form select:focus {
+  border-color: #82a993;
+  box-shadow: 0 0 0 3px rgb(35 97 72 / 10%);
+  outline: none;
+}
+
+.admin-user-form .primary-button {
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.admin-feedback {
+  margin: 0;
+  padding: 0 20px 16px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.form-success {
+  color: var(--green-dark);
+}
+
+.admin-users-panel {
+  overflow: hidden;
+}
+
+.admin-list-heading {
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-refresh {
+  min-height: 34px;
+  margin: 0;
+  font-size: 11px;
+}
+
+.admin-users-table {
+  min-width: 600px;
+}
+
+.admin-users-table td {
+  height: 58px;
+}
+
+.role-badge,
+.current-user-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.role-badge {
+  min-height: 24px;
+  padding: 0 9px;
+}
+
+.role-user {
+  background: #f0f3f0;
+  color: #536159;
+}
+
+.role-admin {
+  background: var(--green-soft);
+  color: var(--green-dark);
+}
+
+.current-user-tag {
+  min-height: 20px;
+  margin-left: 8px;
+  padding: 0 7px;
+  background: #f0f3f0;
+  color: #748079;
+  vertical-align: middle;
+}
+
+.admin-users-table .grid-action-button:disabled {
+  border-color: #e8ece8;
+  background: #f5f6f5;
+  color: #9aa29d;
+  cursor: not-allowed;
+}
+
+.delete-prompt {
+  color: #77413d;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-users-table .grid-action-group {
+  flex-wrap: wrap;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -814,18 +989,23 @@ td {
 
   .topbar {
     height: 60px;
-    padding: 0 18px;
+    padding: 0 12px;
   }
 
   .account {
-    gap: 8px;
+    gap: 4px;
   }
 
   .account-name {
-    max-width: 124px;
+    max-width: 78px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .admin-nav-link {
+    min-height: 32px;
+    padding: 0 6px;
   }
 
   .add-label-error {
@@ -848,6 +1028,25 @@ td {
 
   .page-description {
     max-width: 250px;
+  }
+
+  .admin-user-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .admin-user-form .primary-button {
+    justify-self: stretch;
+  }
+
+  .admin-section-heading,
+  .admin-list-heading {
+    padding: 15px 16px;
+  }
+
+  .admin-users-table {
+    min-width: 570px;
   }
 
   .inventory-grid {
@@ -879,6 +1078,16 @@ td {
   td {
     padding-right: 14px;
     padding-left: 14px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .admin-user-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-user-form .primary-button {
+    justify-self: start;
   }
 }
 

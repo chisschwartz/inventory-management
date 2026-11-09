@@ -33,12 +33,12 @@ function LoginPage({ onLogin }) {
         throw new Error(`Unable to sign in (status ${response.status}).`)
       }
 
-      const { token } = await response.json()
+      const { token, isAdmin } = await response.json()
       if (!token) {
         throw new Error('The server did not return a sign-in token.')
       }
 
-      onLogin(token, username)
+      onLogin(token, username, isAdmin === 'true')
     } catch (requestError) {
       setError(requestError.message || 'Unable to sign in. Please try again.')
     } finally {

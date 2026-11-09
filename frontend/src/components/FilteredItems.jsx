@@ -8,7 +8,7 @@ import InventoryHeader from "./InventoryHeader";
 import { Link } from "react-router-dom";
 
 //shows us the individual items for each label code
-const FilteredItems = ({ token, username, onLogout }) => {
+const FilteredItems = ({ token, username, isAdmin, onLogout }) => {
     const { labelCode } = useParams();
     const [rowData, setRowData] = useState([]);
     const fetchItems = useCallback(async () => {
@@ -68,7 +68,7 @@ const FilteredItems = ({ token, username, onLogout }) => {
 
     return (
         <div className="inventory-app">
-            <InventoryHeader username={username} onLogout={onLogout} />
+            <InventoryHeader username={username} isAdmin={isAdmin} onLogout={onLogout} />
             <main className="inventory-main">
                 <div className="page-heading">
                     <div>

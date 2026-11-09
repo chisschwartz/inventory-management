@@ -7,7 +7,7 @@ import InventoryHeader from "./InventoryHeader";
 import { Link } from "react-router-dom";
 
 //shows all of our labels in stock and their type
-const IndividualItems = ({ token, username, onLogout }) => {
+const IndividualItems = ({ token, username, isAdmin, onLogout }) => {
     const [rowData, setRowData] = useState([]);
     const fetchItems = useCallback(async () => {
         try {
@@ -66,7 +66,7 @@ const IndividualItems = ({ token, username, onLogout }) => {
 
     return (
         <div className="inventory-app">
-            <InventoryHeader username={username} onLogout={onLogout} />
+            <InventoryHeader username={username} isAdmin={isAdmin} onLogout={onLogout} />
             <main className="inventory-main">
                 <div className="page-heading">
                     <div>
