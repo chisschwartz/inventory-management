@@ -1,8 +1,11 @@
 package com.tciproducts.labelinventory.controllers;
 
+import com.tciproducts.labelinventory.dtos.AddSizingRequest;
 import com.tciproducts.labelinventory.models.Sizing;
 import com.tciproducts.labelinventory.services.SizingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,15 @@ public class SizingController {
     @GetMapping("/code/{labelCode}")
     public List<Sizing> getSizeByLabelCode(@PathVariable Integer labelCode) {
         return sizingService.getSizeByLabelCode(labelCode);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/code/{labelCode}")
+    public ResponseEntity<Sizing> addSizing(
+            @PathVariable Integer labelCode,
+            @RequestBody @jakarta.validation.Valid AddSizingRequest request) {
+        Sizing sizing = sizingService.addSizing(labelCode, request.size(), request.quantity());
+        return ResponseEntity.status(HttpStatus.CREATED).body(sizing);
     }
 
 //    @GetMapping("/id/{id}")
